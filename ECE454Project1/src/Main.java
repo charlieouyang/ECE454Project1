@@ -1,3 +1,5 @@
+import FileServer.FileServer;
+
 
 
 public class Main {
@@ -5,13 +7,29 @@ public class Main {
 	{
 		//Main execution point
 		
+		//Insert() - This peer has a "temp" list of the files that it has. Insert() will
+		//take a file name, and insert the file to its local directory (memory?)
+		
+		//Query() - query the state of the files on this local peer. It returns
+		//information about 
+		//	fraction of the file that is available locally
+		//	fraction of the file that is available in the system
+		//	least replication level
+		//	weighted least-replication level
+		
+		//Join() - pass in a list of peers that this host will join. This
+		//will invoke the File Client Thread as it is the one that connects to other peers
+		
+		//Leave() - gracefully close the connections for the server and client
+		//after all jobs are completed
+		
 		//1) Invoke the File Server Thread
 			//Pass in an int for the port number used for the socket
+		FileServer fileServerThread = new FileServer(4408);
+		fileServerThread.run();
+		System.out.println("Harro");
 		
 		//2) Invoke the File Client Thread
-		
-		//3) Deal with graceful shut down?
-		
 		
 		
 		//To Do:

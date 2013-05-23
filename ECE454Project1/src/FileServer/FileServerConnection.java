@@ -2,6 +2,8 @@ package FileServer;
 import java.net.*;
 import java.io.*;
 
+import Data.Message;
+
 public class FileServerConnection extends Thread {
 	private Socket socket = null;
 
@@ -16,29 +18,29 @@ public class FileServerConnection extends Thread {
 
 		try {
 		    
-			/*
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-		    BufferedReader in = new BufferedReader(
-					    new InputStreamReader(
-					    socket.getInputStream()));
-	
-		    String inputLine, outputLine;
-		    
-		    while ((inputLine = in.readLine()) != null) {
-				outputLine = inputLine;
-				out.println(outputLine);
-				if (outputLine.equals("Bye"))
-				    break;
-		    }
-		    out.close();
-		    in.close();
-		    */
-		    
+			//Take client input and see what they want
+			InputStream inputStream = socket.getInputStream();
+			ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+						
+			Message incomingMessage = (Message) objectInputStream.readObject();
+			
+			//Decipher to see what the client wants
+			if (incomingMessage != null){
+				String intention = incomingMessage.getIntention();
+			}
+			else{
+				//Do nothing?
+			}
+			
+			
+			objectInputStream.close();
 			
 		    socket.close();
 	
 		} catch (IOException e) {
 		    e.printStackTrace();
+		} catch (ClassNotFoundException e){
+			e.printStackTrace();
 		}
     }
 }
