@@ -19,20 +19,28 @@ public class FileServerConnection extends Thread {
 		try {
 		    
 			//Take client input and see what they want
-			InputStream inputStream = socket.getInputStream();
-			ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-						
-			Message incomingMessage = (Message) objectInputStream.readObject();
+			ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());			
 			
-			//Decipher to see what the client wants
-			if (incomingMessage != null){
-				String intention = incomingMessage.getIntention();
+			while (true){
+				Message incomingMessage = (Message) objectInputStream.readObject();
+				
+				//Decipher to see what the client wants
+				if (incomingMessage != null && !incomingMessage.getIntention().equals("Close connection!")){
+					Message returnMessage = DecipherMessageAndReturn(incomingMessage);
+					objectOutputStream.writeObject(returnMessage);
+				}
+				else if (incomingMessage.getIntention().equals("Close connection!")){
+					break;
+				}
+				else{
+					//do nothing
+				}
 			}
-			else{
-				//Do nothing?
-			}
 			
+			System.out.println("Closing the connection gracefully");
 			
+			objectOutputStream.close();
 			objectInputStream.close();
 			
 		    socket.close();
@@ -42,5 +50,13 @@ public class FileServerConnection extends Thread {
 		} catch (ClassNotFoundException e){
 			e.printStackTrace();
 		}
+    }
+    
+    private Message DecipherMessageAndReturn(Message incomingMessage){
+    	String intention = incomingMessage.getIntention();
+    	
+    	System.out.println("got message and trying to decipher");
+    	Message returnMessage = new Message(69, intention + " returning your call");
+    	return returnMessage;
     }
 }

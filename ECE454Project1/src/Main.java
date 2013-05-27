@@ -25,7 +25,7 @@ public class Main {
 		
 		//1) Invoke the File Server Thread
 			//Pass in an int for the port number used for the socket
-		FileServer fileServerThread = new FileServer(4408);
+		FileServer fileServerThread = new FileServer(6964);
 		fileServerThread.run();
 		System.out.println("Harro");
 		
