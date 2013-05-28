@@ -27,8 +27,13 @@ public class FileServerConnection extends Thread {
 				
 				//Decipher to see what the client wants
 				if (incomingMessage != null && !incomingMessage.getIntention().equals("Close connection!")){
-					Message returnMessage = DecipherMessageAndReturn(incomingMessage);
-					objectOutputStream.writeObject(returnMessage);
+					Message returnMessage = ServerMethodRepo.DecipherMessageAndReturn(incomingMessage);
+					if (returnMessage != null){
+						objectOutputStream.writeObject(returnMessage);
+					}
+					else{
+						//No message to return
+					}
 				}
 				else if (incomingMessage.getIntention().equals("Close connection!")){
 					break;
@@ -52,11 +57,4 @@ public class FileServerConnection extends Thread {
 		}
     }
     
-    private Message DecipherMessageAndReturn(Message incomingMessage){
-    	String intention = incomingMessage.getIntention();
-    	
-    	System.out.println("got message and trying to decipher");
-    	Message returnMessage = new Message(69, intention + " returning your call");
-    	return returnMessage;
-    }
 }
