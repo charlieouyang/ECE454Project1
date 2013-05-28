@@ -7,7 +7,7 @@ public class TorrentFile {
 	private File file;
 	private long fileSize;
 	private long numChunks;
-	private Chunk[] chunkArray;
+	private ChunkManager[] chunkArray;
 	
 	public TorrentFile(File f)
 	{
@@ -18,7 +18,7 @@ public class TorrentFile {
 	
 	private void partitionFileToChunks()
 	{
-		chunkArray = new Chunk[(int) numChunks];
+		chunkArray = new ChunkManager[(int) numChunks];
 	}
 	
 	public long getFileSize()
