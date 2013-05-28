@@ -3,6 +3,7 @@ package justen;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 public final class ChunkManager {
 	
@@ -64,16 +65,15 @@ public final class ChunkManager {
 	public static byte[] getChunkFromOffset(String filePath, int offset)
 	{
 		FileInputStream fis = null;
+		RandomAccessFile raf = null;
 		byte[] value = new byte[Constants.CHUNK_SIZE];
 		int bytesRead = 0;
 		try
 		{
-			fis = new FileInputStream(filePath);
+			raf = new RandomAccessFile(filePath, "r");
 			
-			if (fis == null)
-				throw new Exception();
-			
-			bytesRead = fis.read(value, offset, Constants.CHUNK_SIZE);
+			raf.seek(offset);
+			bytesRead = raf.read(value, offset, Constants.CHUNK_SIZE);
 			
 			if (bytesRead == -1)
 				throw new IOException();
@@ -93,7 +93,7 @@ public final class ChunkManager {
 			try
 			{
 			if (fis != null)
-				fis.close();
+				raf.close();
 			}
 			catch (Exception ex) 
 			{
