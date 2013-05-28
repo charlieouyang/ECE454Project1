@@ -25,9 +25,6 @@ public final class ChunkManager {
 			
 			fis = new FileInputStream(filePath);
 			
-			if (fis == null)
-				throw new Exception();
-			
 			bytesRead = fis.read(value);
 			
 			if (bytesRead != Constants.CHUNK_SIZE || bytesRead == -1)
@@ -64,7 +61,6 @@ public final class ChunkManager {
 	 */
 	public static byte[] getChunkFromOffset(String filePath, int offset)
 	{
-		FileInputStream fis = null;
 		RandomAccessFile raf = null;
 		byte[] value = new byte[Constants.CHUNK_SIZE];
 		int bytesRead = 0;
@@ -92,7 +88,7 @@ public final class ChunkManager {
 		{
 			try
 			{
-			if (fis != null)
+			if (raf != null)
 				raf.close();
 			}
 			catch (Exception ex) 
