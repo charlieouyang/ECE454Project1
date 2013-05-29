@@ -47,7 +47,7 @@ public class ClientBradcastConnection extends Thread {
 			oos.writeObject(pingMessage);
 
 			oos.close();
-			socket.close();
+			//socket.close();
 			
 		} catch (Exception e) {
 			System.out.println("Failed on trying to ping one peer");

@@ -30,10 +30,6 @@ public class ClientBroadcast extends Thread {
 		        ClientBradcastConnection clientConnectionThread = new ClientBradcastConnection(ipAddress, portNumber);
 		        clientConnectionThread.start();
 		    }
-		    
-		    System.out.println("Done?");
-		    
-		    			
 		} catch (Exception e) {
 			System.err.println("Screwed up on FileClient");
 			e.printStackTrace();

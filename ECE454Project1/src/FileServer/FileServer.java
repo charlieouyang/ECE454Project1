@@ -18,7 +18,7 @@ public class FileServer extends Thread {
 
 			// make this false when you want to disconnect the host
 			while (serverListening) {
-				new FileServerConnection(serverSocket.accept()).start();
+				new FileServerThreadWorkDispatcher(serverSocket.accept()).start();
 			}
 
 			// Is this still neccessary since we're closing the socket
