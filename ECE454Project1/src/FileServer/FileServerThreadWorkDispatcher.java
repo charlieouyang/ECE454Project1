@@ -49,22 +49,11 @@ public class FileServerThreadWorkDispatcher extends Thread {
 			} 
 			else if (incomingMessage.getIntention().equals("Close connection!")) {
 				//What are we doing here??
-			} 
+			}
 			else {
 				// do nothing
 			}
 			
-			int i=0;
-			while (true){
-				i++; 
-				for (Entry entry : PropertiesOfPeer.ipAddrPortNumMappingAlive){
-					System.out.println(entry.getKey() + " " + entry.getValue());
-				}
-				if (i>50)
-					break;
-				
-			}
-
 			System.out.println("Closing the connection for receiving gracefully");
 			
 			objectInputStream.close();
