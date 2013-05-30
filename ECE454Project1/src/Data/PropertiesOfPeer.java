@@ -8,9 +8,9 @@ import java.util.Map.Entry;
 
 public class PropertiesOfPeer {
 	//Global variables for the file server and client to access
-	public static int PeerID = 1;
 	public static String ipAddress = "localhost";
 	public static int portNumber = 6000;			//Port number of this host
+	public static String PeerName = ipAddress + "." + portNumber;
 	public static ArrayList<Entry> ipAddrPortNumMappingAll = new ArrayList<Entry>();
 	public static ArrayList<Entry> ipAddrPortNumMappingAlive = new ArrayList<Entry>();
 	public static boolean peerUp = true;

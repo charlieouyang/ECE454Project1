@@ -47,10 +47,9 @@ public class ClientBradcastConnection extends Thread {
 				ObjectOutputStream oos = new ObjectOutputStream(
 						socket.getOutputStream());
 	
-				Message pingMessage = new Message(PropertiesOfPeer.ipAddress, PropertiesOfPeer.portNumber, "Are you alive?");
+				Message pingMessage = new Message(PropertiesOfPeer.ipAddress, PropertiesOfPeer.portNumber, Message.MESSAGE_TYPE.PEER_DISCOVER, null);
 				oos.writeObject(pingMessage);
 				
-	
 				oos.close();
 			}
 			//socket.close();

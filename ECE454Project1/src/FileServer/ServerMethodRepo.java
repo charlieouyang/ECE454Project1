@@ -1,21 +1,24 @@
 package FileServer;
 
+import java.awt.TrayIcon.MessageType;
+
 import Data.Message;
 import Data.PropertiesOfPeer;
 
 public class ServerMethodRepo {
 	
 	public static Message DecipherMessageAndReturn(Message incomingMessage) {
-		String intention = incomingMessage.getIntention();
+		
+		Message.MESSAGE_TYPE type = incomingMessage.getType();
 		Message returnMessage = null;
 		
-		if (intention.equals("Are you alive?")){
+		if (type.equals(Message.MESSAGE_TYPE.PEER_DISCOVER)){
 			returnMessage = RespondToAnotherPeerBroadCastMessage(incomingMessage);
 		}
-		else if (intention.equals("Yes I am alive!")){
+		else if (type.equals(Message.MESSAGE_TYPE.ACK_PEER_DISCOVER)){
 			returnMessage = ReceiveBroadcastStatusFromPeer(incomingMessage);
 		}
-		else if (intention.equals("Closing connection!")){
+		else if (type.equals(Message.MESSAGE_TYPE.PEER_LEAVING)){
 			returnMessage = ReceiveClosingConnectionFromPeer(incomingMessage);
 		}
 		
@@ -24,7 +27,7 @@ public class ServerMethodRepo {
 	}
 	
 	public static Message RespondToAnotherPeerBroadCastMessage(Message broadcastMessage){
-		Message returnMessage = new Message(PropertiesOfPeer.ipAddress, PropertiesOfPeer.portNumber, "Yes I am alive!");
+		Message returnMessage = new Message(PropertiesOfPeer.ipAddress, PropertiesOfPeer.portNumber, Message.MESSAGE_TYPE.ACK_PEER_DISCOVER, null);
 		return returnMessage;
 	}
 	
@@ -38,7 +41,7 @@ public class ServerMethodRepo {
 	public static Message GetClosingConnectionMessage(){
 		String ipAddress = PropertiesOfPeer.ipAddress;
 		int portNumber = PropertiesOfPeer.portNumber;
-		Message closingMessage = new Message(ipAddress, portNumber, "Closing connection!");
+		Message closingMessage = new Message(ipAddress, portNumber, Message.MESSAGE_TYPE.PEER_LEAVING, null);
 		return closingMessage;
 	}
 	
