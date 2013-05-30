@@ -32,7 +32,7 @@ public class FileServerThreadWorkDispatcher extends Thread {
 			Message incomingMessage = (Message) objectInputStream.readObject();
 
 			// Decipher to see what the client wants
-			if (incomingMessage != null && !incomingMessage.getIntention().equals("Close connection!")) {
+			if (incomingMessage != null) {
 				Message returnMessage = ServerMethodRepo.DecipherMessageAndReturn(incomingMessage);
 
 				if (returnMessage != null) {
@@ -46,9 +46,6 @@ public class FileServerThreadWorkDispatcher extends Thread {
 				} else {
 					// No message to return
 				}
-			} 
-			else if (incomingMessage.getIntention().equals("Close connection!")) {
-				//What are we doing here??
 			}
 			else {
 				// do nothing

@@ -3,9 +3,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import UserInput.UserInputThread;
+
 import FileClient.ClientBroadcast;
+import FileClient.ClientCloseThisBroadcast;
+import FileClient.CloseThisConnectionThread;
 import FileServer.FileServer;
 import Data.*;
+import Debug.PrintOutIpPortAliveMapThread;
 
 public class Main {
 	
@@ -33,10 +38,12 @@ public class Main {
 		//1) Invoke the File Server Thread
 			//Pass in an int for the port number used for the socket
 		
+		UserInputThread userInputThread = new UserInputThread();
+		userInputThread.start();
+		
 		FileServer fileServerThread = new FileServer(properties.portNumber);
 		fileServerThread.start();
 		System.out.println("Running file server thread");
-		
 		
 		try {
 		    Thread.sleep(5000);			//Wait 5 seconds and get all of the peers up
@@ -48,6 +55,13 @@ public class Main {
 		ClientBroadcast fileClientThread = new ClientBroadcast(properties.ipAddrPortNumMappingAll);
 		fileClientThread.start();
 		System.out.println("Running file client thread");
+		
+		PrintOutIpPortAliveMapThread debugThread = new PrintOutIpPortAliveMapThread();
+		debugThread.start();
+		
+		//Shutdown the server!
+		//CloseThisConnectionThread closePeerThread = new CloseThisConnectionThread();
+		//closePeerThread.start();
 		
 		//To Do:
 		
