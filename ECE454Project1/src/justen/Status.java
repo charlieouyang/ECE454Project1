@@ -8,12 +8,19 @@ public class Status {
 	int[] leastReplication;
 	float[] weightedLeastReplication;
 	
-	public Status()
+	
+	public Status(ConcurrencyManager cm)
 	{
-		local = new float[100];
-		system = new float[100];
-		leastReplication = new int[100];
-		weightedLeastReplication = new float[100];
+		numFiles = cm.getAllFiles().size();
+		local = new float[numFiles];
+		system = new float[numFiles];
+		leastReplication = new int[numFiles];
+		weightedLeastReplication = new float[numFiles];
+		
+		TorrentFile[] allFilesArray = (TorrentFile[]) cm.getAllFiles().toArray();
+		for (int i = 0; i < numFiles; i++) {
+			TorrentFile tFile = allFilesArray[i];
+		}
 	}
 	
 	public int numberOfFiles()
