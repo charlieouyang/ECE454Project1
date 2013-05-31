@@ -26,6 +26,7 @@ public class FileManager {
 	
 	/**
 	 * @return Gets chunks associated with peer
+	 * We will use the aggregateChunkListMethodHere
 	 */
 	public HashSet<String> getLocalChunkList()
 	{
