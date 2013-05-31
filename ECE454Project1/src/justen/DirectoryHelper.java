@@ -1,5 +1,7 @@
 package justen;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class DirectoryHelper {
 	
@@ -45,4 +47,99 @@ public class DirectoryHelper {
 	    folder.delete();
 	}
 	
+	public static ArrayList<String> getAggregateChunkList(String directory){
+		File folder = new File(directory);
+		File[] listOfFiles = folder.listFiles();
+		
+		ArrayList<Integer> listOfChunkNumbers = new ArrayList<Integer>();
+
+		for (int i = 0; i < listOfFiles.length; i++) {
+			//It's a file
+			if (listOfFiles[i].isFile()) {
+				System.out.println("File " + listOfFiles[i].getName());
+				
+				String fileName = listOfFiles[i].getName();
+				int lastUnderScore = fileName.lastIndexOf("_");
+				int endOfString = fileName.lastIndexOf(".");
+				
+				String chunkIndexString = fileName.substring(lastUnderScore + 1, endOfString);
+				int chunkIndex = Integer.parseInt(chunkIndexString);
+				
+				listOfChunkNumbers.add(chunkIndex);
+			}
+			//It's a directory
+			else if (listOfFiles[i].isDirectory()) {
+				System.out.println("Directory " + listOfFiles[i].getName());
+			}
+		}
+		
+		Collections.sort(listOfChunkNumbers);
+		
+		//int previousValue = 0;
+		ArrayList<String> listOfRanges = new ArrayList<String>();
+		
+		int shouldBeValue = 0;
+		boolean hiccup = false;
+		boolean starting = true;
+		boolean lastEntry = false;
+		
+		int lastValueTracker = 1;
+		
+		int startValueRange = 0;
+		int lastValueRange = 0;
+		
+		
+		for (Integer value : listOfChunkNumbers){
+			if (starting){
+				startValueRange = value;
+				starting = false;
+				shouldBeValue = value + 1;
+			}
+			else if (value != shouldBeValue){
+				hiccup = true;
+				lastValueRange = shouldBeValue - 1;
+				shouldBeValue = value + 1;
+				
+				if (lastValueTracker == listOfChunkNumbers.size()){
+					lastEntry = true;
+				}
+			}
+			else if (lastValueTracker == listOfChunkNumbers.size()){
+				hiccup = true;
+				lastValueRange = value;
+			}
+			else{
+				shouldBeValue++;
+			}
+			
+			if (hiccup){
+				listOfRanges.add(Integer.toString(startValueRange) + "-" + lastValueRange);
+				hiccup = false;
+				
+				startValueRange = value;
+			}
+			if (lastEntry){
+				listOfRanges.add(Integer.toString(value) + "-" + value);
+			}
+			
+			lastValueTracker++;
+		}
+		
+		ArrayList<String> finalListOfRanges = new ArrayList<String>();
+		
+		for (String range : listOfRanges){
+			int indexOfDash = range.indexOf("-");
+			String firstNumber = range.substring(0, indexOfDash);
+			String secondNumber = range.substring(indexOfDash + 1, range.length());
+			
+			if (firstNumber.equals(secondNumber)){
+				finalListOfRanges.add(firstNumber);
+			}
+			else{
+				finalListOfRanges.add(range);
+			}
+		}
+		
+		return finalListOfRanges;
+	}
 }
