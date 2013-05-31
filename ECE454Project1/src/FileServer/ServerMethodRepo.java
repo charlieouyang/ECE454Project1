@@ -12,6 +12,8 @@ public class ServerMethodRepo {
 		Message.MESSAGE_TYPE type = incomingMessage.getType();
 		Message returnMessage = null;
 		
+		System.out.println("got message and trying to decipher");
+		
 		//Peer connection establishment management messages
 		if (type.equals(Message.MESSAGE_TYPE.PEER_DISCOVER)){
 			returnMessage = RespondToAnotherPeerBroadCastMessage(incomingMessage);
@@ -43,7 +45,6 @@ public class ServerMethodRepo {
 			System.err.println("Unknown message type... You fucked up!");
 		}
 		
-		System.out.println("got message and trying to decipher");
 		return returnMessage;
 	}
 	
