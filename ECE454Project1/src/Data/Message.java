@@ -11,14 +11,9 @@ public class Message implements Serializable {
 		
 		CHUNK_REQUEST,
 		CHUNK_RESPONSE,
-		CHUNK_UNAVAILABLE,
 		
-		FILE_LIST_REQUEST, 			// BROADCAST
-		FILE_LIST_RESPONSE, 		
-		FILE_LIST_UNAVAILABLE, 		// BROADCAST
-		
-		CHUNK_LIST_REQUEST, 		// BROADCAST
-		CHUNK_LIST_RESPONSE
+		STATUS_REQUEST,
+		STATUS_UPDATE_RESPONSE
 	}
 	
     private String ipAddress;		//Of sender

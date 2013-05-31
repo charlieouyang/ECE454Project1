@@ -30,24 +30,12 @@ public class ServerMethodRepo {
 		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_RESPONSE)){
 			
 		}
-		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_UNAVAILABLE)){
-			
-		}
 		
 		//File and chunk list management messages
-		else if (type.equals(Message.MESSAGE_TYPE.FILE_LIST_REQUEST)){
+		else if (type.equals(Message.MESSAGE_TYPE.STATUS_REQUEST)){
 			
 		}
-		else if (type.equals(Message.MESSAGE_TYPE.FILE_LIST_RESPONSE)){
-			
-		}
-		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_LIST_REQUEST)){
-			
-		}
-		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_LIST_RESPONSE)){
-			
-		}
-		else if (type.equals(Message.MESSAGE_TYPE.FILE_LIST_UNAVAILABLE)){
+		else if (type.equals(Message.MESSAGE_TYPE.STATUS_UPDATE_RESPONSE)){
 			
 		}
 		
