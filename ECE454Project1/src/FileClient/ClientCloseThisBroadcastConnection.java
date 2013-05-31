@@ -7,7 +7,7 @@ import java.net.*;
 
 import Data.Message;
 import Data.PropertiesOfPeer;
-import FileServer.ServerMethodRepo;
+import FileServer.ServerDecipherMessageRepo;
 
 //This will take care of each individual connection with another peer
 //It will request for a list of files that another peer has
@@ -43,7 +43,7 @@ public class ClientCloseThisBroadcastConnection extends Thread {
 			ObjectOutputStream oos = new ObjectOutputStream(
 					socket.getOutputStream());
 
-			Message pingMessage = ServerMethodRepo.GetClosingConnectionMessage();
+			Message pingMessage = ServerDecipherMessageRepo.GetClosingConnectionMessage();
 			oos.writeObject(pingMessage);
 
 			oos.close();
