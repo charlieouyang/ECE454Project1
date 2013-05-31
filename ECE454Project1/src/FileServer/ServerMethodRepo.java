@@ -12,6 +12,7 @@ public class ServerMethodRepo {
 		Message.MESSAGE_TYPE type = incomingMessage.getType();
 		Message returnMessage = null;
 		
+		//Peer connection establishment management messages
 		if (type.equals(Message.MESSAGE_TYPE.PEER_DISCOVER)){
 			returnMessage = RespondToAnotherPeerBroadCastMessage(incomingMessage);
 		}
@@ -20,6 +21,38 @@ public class ServerMethodRepo {
 		}
 		else if (type.equals(Message.MESSAGE_TYPE.PEER_LEAVING)){
 			returnMessage = ReceiveClosingConnectionFromPeer(incomingMessage);
+		}
+		
+		//Chunk send and receive messages
+		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_REQUEST)){
+			
+		}
+		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_RESPONSE)){
+			
+		}
+		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_UNAVAILABLE)){
+			
+		}
+		
+		//File and chunk list management messages
+		else if (type.equals(Message.MESSAGE_TYPE.FILE_LIST_REQUEST)){
+			
+		}
+		else if (type.equals(Message.MESSAGE_TYPE.FILE_LIST_RESPONSE)){
+			
+		}
+		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_LIST_REQUEST)){
+			
+		}
+		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_LIST_RESPONSE)){
+			
+		}
+		else if (type.equals(Message.MESSAGE_TYPE.FILE_LIST_UNAVAILABLE)){
+			
+		}
+		
+		else{
+			System.err.println("Unknown message type... You fucked up!");
 		}
 		
 		System.out.println("got message and trying to decipher");
