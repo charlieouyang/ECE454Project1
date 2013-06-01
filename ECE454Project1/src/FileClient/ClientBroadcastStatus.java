@@ -12,10 +12,10 @@ import java.util.concurrent.*;
 
 //This class will spawn all of the connection threads that will connect to other hosts
 
-public class ClientBroadcast extends Thread {
+public class ClientBroadcastStatus extends Thread {
 	private ArrayList<Entry> ipAddrPortNumMapping;
 	
-	public ClientBroadcast(ArrayList<Entry> ipAddrPortNumMapping) {
+	public ClientBroadcastStatus(ArrayList<Entry> ipAddrPortNumMapping) {
 		this.ipAddrPortNumMapping = ipAddrPortNumMapping;
 	}
 	
@@ -27,11 +27,11 @@ public class ClientBroadcast extends Thread {
 		    	String ipAddress = entry.getKey();
 		        int portNumber = entry.getValue();
 		        
-		        ClientBradcastConnection clientConnectionThread = new ClientBradcastConnection(ipAddress, portNumber);
+		        ClientBroadcastStatusConnection clientConnectionThread = new ClientBroadcastStatusConnection(ipAddress, portNumber);
 		        clientConnectionThread.start();
 		    }
 		} catch (Exception e) {
-			System.err.println("Screwed up on FileClient");
+			System.err.println("Screwed up on FileBroadcastStatus");
 			e.printStackTrace();
 		}
 	}

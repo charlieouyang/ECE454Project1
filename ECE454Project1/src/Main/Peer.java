@@ -6,7 +6,8 @@ import java.util.Map.Entry;
 
 import UserInput.UserInputThread;
 
-import FileClient.ClientBroadcast;
+import FileClient.ClientBroadcastStatus;
+import FileClient.ClientBroadcastUp;
 import FileClient.ClientCloseThisBroadcast;
 import FileClient.CloseThisConnectionThread;
 import FileServer.FileServer;
@@ -49,6 +50,9 @@ public class Peer {
 		//1 File name to number mapping (int[], float[] mapping to file in file list)
 		//2 Handling null for torentFile
 		
+		//3 When insert() file, need to build torrentFile, update list of files, and metadata(number of chunks)
+		//  in order to update status for broadcast
+		
 		UserInputThread userInputThread = new UserInputThread();
 		userInputThread.start();
 		
@@ -63,8 +67,13 @@ public class Peer {
 		}
 
 		// 2) Invoke the File Client Thread		
-		ClientBroadcast fileClientThread = new ClientBroadcast(properties.ipAddrPortNumMappingAll);
+		ClientBroadcastUp fileClientThread = new ClientBroadcastUp(properties.ipAddrPortNumMappingAll);
 		fileClientThread.start();
+		
+		// Broadcast thread for status
+		ClientBroadcastStatus statusBroadcastThread = new ClientBroadcastStatus(properties.ipAddrPortNumMappingAll);
+		statusBroadcastThread.start();
+		
 		System.out.println("Running file client thread");
 		
 		PrintOutIpPortAliveMapThread debugThread = new PrintOutIpPortAliveMapThread();

@@ -2,6 +2,8 @@ package FileServer;
 
 import java.awt.TrayIcon.MessageType;
 
+import justen.Status;
+
 import Data.Message;
 import Data.PropertiesOfPeer;
 
@@ -37,12 +39,7 @@ public class ServerDecipherMessageRepo {
 		}
 		
 		//File and chunk list management messages
-		else if (type.equals(Message.MESSAGE_TYPE.STATUS_REQUEST)){
-			//Call the file manager/chunk manager to return list of files and chunks
-			//No need for another thread since FileServerThreadWorkDispatcher will send the return message
-			returnMessage = ReturnStatusFromStatusRequest(incomingMessage);
-		}
-		else if (type.equals(Message.MESSAGE_TYPE.STATUS_UPDATE_RESPONSE)){
+		else if (type.equals(Message.MESSAGE_TYPE.STATUS_UPDATE)){
 			//Do some status operations to update this peer
 			returnMessage = ReceiveStatusResponse(incomingMessage);
 		}
@@ -108,7 +105,7 @@ public class ServerDecipherMessageRepo {
 	}
 	
 	public static Message ReceiveStatusResponse(Message statusResponseMessage){
-		//Update the status object of this peer based on other peer statuses
+		PropertiesOfPeer.updateOtherPeersStatus(statusResponseMessage);
 		return null;
 	}
 }

@@ -45,14 +45,14 @@ public class PropertiesOfPeer {
 	
 	//This will be used to update the peer's status info
 	public static void updateCurrentPeerStatus(){
-		
+		currentPeerStatus = new Status(peerConcurrencyManager);
 	}
 	
-	/*
-	public static synchronized Status getCurrentPeerStatus(boolean read, Status ){
-		
+	public static synchronized Status getCurrentPeerStatus(){
+		Status tempStatus = currentPeerStatus;
+		updateCurrentPeerStatus();
+		return tempStatus;
 	}
-	*/
 	
 	//Receive status from another peer and update that info
 	public static void updateOtherPeersStatus(Message incomingMessageStatusFromAnotherPeer){

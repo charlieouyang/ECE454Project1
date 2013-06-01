@@ -12,8 +12,7 @@ public class Message implements Serializable {
 		CHUNK_REQUEST,
 		CHUNK_RESPONSE,
 		
-		STATUS_REQUEST,
-		STATUS_UPDATE_RESPONSE
+		STATUS_UPDATE
 	}
 	
     private String ipAddress;		//Of sender
