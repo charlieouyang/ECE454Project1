@@ -1,5 +1,7 @@
 package justen;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Status {
@@ -9,10 +11,21 @@ public class Status {
 	float[] system;
 	int[] leastReplication;
 	float[] weightedLeastReplication;
+	HashSet<String> allChunks;
 	
+	HashMap<String, Integer> allCompletedFiles;
 	
 	public Status(ConcurrencyManager cm) {
-		numFiles = cm.getAllFiles().size();
+		HashSet<TorrentFile> completedFiles = cm.getAllFiles();
+		numFiles = completedFiles.size();
+		allCompletedFiles = new HashMap<String, Integer>();
+		
+		for (TorrentFile t : completedFiles) {
+			allCompletedFiles.put(t.getFileName(), (int)t.getNumberOfChunks());
+		}
+		
+		allChunks = cm.getIncompleteChunks();
+		
 		local = new float[numFiles];
 		system = new float[numFiles];
 		leastReplication = new int[numFiles];

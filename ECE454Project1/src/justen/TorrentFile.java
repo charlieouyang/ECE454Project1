@@ -7,7 +7,6 @@ public class TorrentFile {
 	private File file;
 	private long fileSize;
 	private long numChunks;
-	private ChunkManager[] chunkArray;
 	private String fileName;
 	
 	public TorrentFile(File f) {
