@@ -1,8 +1,8 @@
 package justen;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Hashtable;
 
 public class ConcurrencyManager {
 
@@ -10,6 +10,7 @@ public class ConcurrencyManager {
 	private String peerName;
 	private HashSet<TorrentFile> allFiles;
 	private HashSet<String> allIncompleteChunks;
+	private Hashtable<String, TorrentMetaData> allMetaData;
 	
 	public ConcurrencyManager(String peerName) {
 		this.peerName = peerName;
@@ -21,6 +22,14 @@ public class ConcurrencyManager {
 	public synchronized void refreshConcurrencyManager() {
 		allFiles = fileManager.getCompletedFiles();
 		allIncompleteChunks = fileManager.getLocalChunkList();
+	}
+	
+	public synchronized Hashtable<String, TorrentMetaData> getAllMetaData() {
+		return allMetaData;
+	}
+	
+	public synchronized void updateMetaData(String key, TorrentMetaData value) {
+		allMetaData.put(key, value);
 	}
 	
 	public synchronized HashSet<TorrentFile> getAllFiles() {
@@ -46,6 +55,7 @@ public class ConcurrencyManager {
 		
 		TorrentFile tFile = fileManager.copyFileFromRepo(fileName);
 		allFiles.add(tFile);
+		allMetaData.put(tFile.getFileName(), new TorrentMetaData(tFile));
 		
 		return 0;
 	}
