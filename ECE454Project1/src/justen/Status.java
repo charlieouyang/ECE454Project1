@@ -58,11 +58,9 @@ public class Status {
 					localNumChunks++;
 					replicatedChunks[k]++;
 				}
-				for (Map.Entry<String, Status> entry : temp.entrySet()) {
 					// if peer has this chunk
 						// systemNumChunks++
 						// replicatedChunks[k]++
-				}
 				// iterate through the map and check 
 			}
 			
