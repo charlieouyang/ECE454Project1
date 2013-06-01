@@ -2,6 +2,7 @@ package justen;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class Status {
@@ -13,12 +14,20 @@ public class Status {
 	float[] weightedLeastReplication;
 	HashSet<String> allChunks;
 	
-	HashMap<String, Integer> allCompletedFiles;
+	Hashtable<String, Integer> allCompletedFiles;
+	Hashtable<String, TorrentMetaData> allMetaData;
+	
+	Hashtable<String, Integer> fileNameIndexMap;
+	
 	
 	public Status(ConcurrencyManager cm) {
 		HashSet<TorrentFile> completedFiles = cm.getAllFiles();
 		numFiles = completedFiles.size();
-		allCompletedFiles = new HashMap<String, Integer>();
+		if (numFiles == 0)
+			return;
+		allCompletedFiles = new Hashtable<String, Integer>();
+		fileNameIndexMap = new Hashtable<String,Integer>();
+		allMetaData = cm.getAllMetaData(); 
 		
 		for (TorrentFile t : completedFiles) {
 			allCompletedFiles.put(t.getFileName(), (int)t.getNumberOfChunks());
@@ -32,11 +41,11 @@ public class Status {
 		weightedLeastReplication = new float[numFiles];
 		int totalNumberOfChunks = 0;
 		
-		Map<String, Status> temp = null;
-		
 		TorrentFile[] allFilesArray = (TorrentFile[]) cm.getAllFiles().toArray();
 		for (int i = 0; i < numFiles; i++) {
 			TorrentFile tFile = allFilesArray[i];
+			
+			fileNameIndexMap.put(tFile.getFileName(), i);
 			
 			int numberOfChunks = (int)tFile.getNumberOfChunks();
 			totalNumberOfChunks += numberOfChunks;
