@@ -1,5 +1,7 @@
 package justen;
 
+import java.util.Map;
+
 public class Status {
 
 	private int numFiles;
@@ -9,17 +11,52 @@ public class Status {
 	float[] weightedLeastReplication;
 	
 	
-	public Status(ConcurrencyManager cm)
-	{
+	public Status(ConcurrencyManager cm) {
 		numFiles = cm.getAllFiles().size();
 		local = new float[numFiles];
 		system = new float[numFiles];
 		leastReplication = new int[numFiles];
 		weightedLeastReplication = new float[numFiles];
+		int totalNumberOfChunks = 0;
+		
+		Map<String, Status> temp = null;
 		
 		TorrentFile[] allFilesArray = (TorrentFile[]) cm.getAllFiles().toArray();
 		for (int i = 0; i < numFiles; i++) {
 			TorrentFile tFile = allFilesArray[i];
+			
+			int numberOfChunks = (int)tFile.getNumberOfChunks();
+			totalNumberOfChunks += numberOfChunks;
+			
+			int[] replicatedChunks = new int[numberOfChunks];
+			int localNumChunks = 0, systemNumChunks = 0;
+			
+			for (int k = 0; k < numberOfChunks; k++) {
+				if (cm.getIncompleteChunks().contains(tFile.getChunkName(k))) {
+					localNumChunks++;
+					replicatedChunks[k]++;
+				}
+				for (Map.Entry<String, Status> entry : temp.entrySet()) {
+					// if peer has this chunk
+						// systemNumChunks++
+						// replicatedChunks[k]++
+				}
+				// iterate through the map and check 
+			}
+			
+			local[i] = (float) localNumChunks / numberOfChunks;
+			system[i] = (float) systemNumChunks / numberOfChunks;
+			leastReplication[i] = replicatedChunks[0];
+			
+			for (int j = 1; j < replicatedChunks.length; j++) {
+				if (leastReplication[i] > replicatedChunks[j])
+					leastReplication[i] = replicatedChunks[j];
+			}			
+		}
+		
+		for (int a = 0; a < numFiles; a++) {
+			TorrentFile tFile = allFilesArray[a];
+			weightedLeastReplication[a] = (float) totalNumberOfChunks / tFile.getNumberOfChunks();
 		}
 	}
 	

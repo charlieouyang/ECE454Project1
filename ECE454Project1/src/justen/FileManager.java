@@ -25,6 +25,35 @@ public class FileManager {
 	}
 	
 	/**
+	 * Checks if the peer contains the completed file
+	 * @param fileName Name of the File
+	 * @return If the peer has the completed file
+	 */
+	public boolean hasCompleteFile(String fileName) {
+		HashSet<TorrentFile> completedFiles = getCompletedFiles();
+		for (TorrentFile t : completedFiles) {
+			if (t.getFileName().equals(fileName))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if the peer contains the given chunk
+	 * @param fileName Name of file
+	 * @param chunkNum Chunk number of file
+	 * @return If peer has the specified chunk
+	 */
+	public boolean hasChunk(String fileName, int chunkNum) {
+		HashSet<String> chunks = getLocalChunkList();
+		for (String s : chunks) {
+			if (s.equals(fileName + "_chunk_" + chunkNum))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * @return Gets chunks associated with peer
 	 * We will use the aggregateChunkListMethodHere
 	 */
@@ -141,13 +170,21 @@ public class FileManager {
 		}
 	}
 	
+	public byte[] getChunk(String fileName) {
+		return ChunkManager.getChunk(fileName);
+	}
+	
+	public byte[] getChunkFromIncompleteFile(String fileName, int chunkNum) {
+		return ChunkManager.getChunkFromOffset(fileName, chunkNum * Constants.CHUNK_SIZE);
+	}
+	
 	/**
 	 * Gets the data of the specified chunk from chunk directory.
 	 * @param tFile
 	 * @param chunkNum
 	 * @return Chunk data
 	 */
-	private byte[] getChunkData(TorrentFile tFile, int chunkNum) {
+	public byte[] getChunkData(TorrentFile tFile, int chunkNum) {
 		if (chunkNum >= tFile.getNumberOfChunks())
 			return null;
 		

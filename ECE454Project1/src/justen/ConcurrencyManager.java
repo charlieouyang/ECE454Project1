@@ -9,15 +9,26 @@ public class ConcurrencyManager {
 	private FileManager fileManager;
 	private String peerName;
 	private HashSet<TorrentFile> allFiles;
+	private HashSet<String> allIncompleteChunks;
 	
 	public ConcurrencyManager(String peerName) {
 		this.peerName = peerName;
 		fileManager = new FileManager(peerName);
 		allFiles = fileManager.getCompletedFiles();
+		allIncompleteChunks = fileManager.getLocalChunkList();
+	}
+	
+	public synchronized void refreshConcurrencyManager() {
+		allFiles = fileManager.getCompletedFiles();
+		allIncompleteChunks = fileManager.getLocalChunkList();
 	}
 	
 	public synchronized HashSet<TorrentFile> getAllFiles() {
 		return allFiles;
+	}
+	
+	public synchronized HashSet<String> getIncompleteChunks() {
+		return allIncompleteChunks;
 	}
 	
 	public synchronized int insertFile(String fileName) {
@@ -37,5 +48,14 @@ public class ConcurrencyManager {
 		allFiles.add(tFile);
 		
 		return 0;
+	}
+	
+	public synchronized byte[] getChunkData(String fileName, int chunkNum) {
+		if (fileManager.hasCompleteFile(fileName))
+			return fileManager.getChunk(fileName);
+		else if (fileManager.hasChunk(fileName, chunkNum))
+			return fileManager.getChunkFromIncompleteFile(fileName, chunkNum);			
+		else
+			return null;
 	}
 }
