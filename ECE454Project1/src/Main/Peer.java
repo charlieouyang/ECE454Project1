@@ -1,3 +1,4 @@
+package Main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +13,12 @@ import FileServer.FileServer;
 import Data.*;
 import Debug.PrintOutIpPortAliveMapThread;
 
-public class Main {
+public class Peer {
 	
 	public static void main(String [ ] args)
 	{
 		final PropertiesOfPeer properties = new PropertiesOfPeer();
+		
 		//Main execution point
 		
 		//Insert() - This peer has a "temp" list of the files that it has. Insert() will
@@ -37,6 +39,15 @@ public class Main {
 		
 		//1) Invoke the File Server Thread
 			//Pass in an int for the port number used for the socket
+		
+		//Problems
+		//1 When a peer shuts down, it needs to send out its rarest chunks... what does rarest mean
+		//2 When sending status to another peer (incomplete files), do you include total number of chunks
+		//	that goes a long with an aggregate list
+		
+		//Things to implement
+		//1 File name to number mapping (int[], float[] mapping to file in file list)
+		//2 Handling null for torentFile
 		
 		UserInputThread userInputThread = new UserInputThread();
 		userInputThread.start();

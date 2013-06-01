@@ -22,12 +22,19 @@ public class PropertiesOfPeer {
 	public static ConcurrencyManager peerConcurrencyManager;
 	public static Status currentPeerStatus;
 	public static HashMap<String, Status> listOfOtherPeersStatus;		//PeerName mapped to status
+	ArrayList<String> listOfCompleteFiles;
+	ArrayList<String> listOfIncompleteFiles;
+	ArrayList<String> listOfChunks;
 	
 	public PropertiesOfPeer(){
 		//Stuff to keep track of files/chunks and other peers
 		peerConcurrencyManager = new ConcurrencyManager(PeerName);
 		currentPeerStatus = new Status(peerConcurrencyManager);
 		listOfOtherPeersStatus = new HashMap<String, Status>();
+		
+		listOfCompleteFiles = new ArrayList<String>();
+		listOfIncompleteFiles = new ArrayList<String>();
+		listOfChunks = new ArrayList<String>();
 		
 		//List of ip address to port number mappings
 		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("localhost", 7000);
@@ -40,6 +47,12 @@ public class PropertiesOfPeer {
 	public static void updateCurrentPeerStatus(){
 		
 	}
+	
+	/*
+	public static synchronized Status getCurrentPeerStatus(boolean read, Status ){
+		
+	}
+	*/
 	
 	//Receive status from another peer and update that info
 	public static void updateOtherPeersStatus(Message incomingMessageStatusFromAnotherPeer){
