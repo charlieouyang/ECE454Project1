@@ -5,20 +5,24 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
 
+import justen.Status;
+
 import Data.Message;
 import Data.PropertiesOfPeer;
 
 //This will take care of each individual connection with another peer
 //It will request for a list of files that another peer has
 
-public class ClientBradcastConnection extends Thread {
+public class ClientBroadcastStatusConnection extends Thread {
 	private Socket socket;
 	private String ipAddress;
 	private int portNumber;
+	private Status thisStatus;
 
-	public ClientBradcastConnection(String ipAddress, int portNumber) throws Exception {
+	public ClientBroadcastStatusConnection(String ipAddress, int portNumber) throws Exception {
 		this.ipAddress = ipAddress;
 		this.portNumber = portNumber;
+		thisStatus = new Status(PropertiesOfPeer.peerConcurrencyManager);
 	}
 
 	// Contact the peer and ask for a list of files
@@ -47,15 +51,15 @@ public class ClientBradcastConnection extends Thread {
 				ObjectOutputStream oos = new ObjectOutputStream(
 						socket.getOutputStream());
 	
-				Message pingMessage = new Message(PropertiesOfPeer.ipAddress, PropertiesOfPeer.portNumber, Message.MESSAGE_TYPE.PEER_DISCOVER, null);
-				oos.writeObject(pingMessage);
+				Message statusMessage = new Message(PropertiesOfPeer.ipAddress, PropertiesOfPeer.portNumber, Message.MESSAGE_TYPE.STATUS_UPDATE, thisStatus);
+				oos.writeObject(statusMessage);
 				
 				oos.close();
 			}
 			//socket.close();
 			
 		} catch (Exception e) {
-			System.out.println("Failed on trying to ping one peer");
+			System.err.println("Failed on trying to send status to one peer");
 			e.printStackTrace();
 		}
 	}
