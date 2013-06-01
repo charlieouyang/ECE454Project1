@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
 
+import Data.PropertiesOfPeer;
+import Main.Peer;
+
 public class Status {
 
 	private int numFiles;
@@ -28,6 +31,8 @@ public class Status {
 		allCompletedFiles = new Hashtable<String, Integer>();
 		fileNameIndexMap = new Hashtable<String,Integer>();
 		allMetaData = cm.getAllMetaData(); 
+		
+		Hashtable<String, Status> temp = PropertiesOfPeer.listOfOtherPeersStatus;
 		
 		for (TorrentFile t : completedFiles) {
 			allCompletedFiles.put(t.getFileName(), (int)t.getNumberOfChunks());
@@ -78,6 +83,10 @@ public class Status {
 			TorrentFile tFile = allFilesArray[a];
 			weightedLeastReplication[a] = (float) totalNumberOfChunks / tFile.getNumberOfChunks();
 		}
+	}
+	
+	public boolean containsChunk(String chunkName) {
+		return allChunks.contains(chunkName);
 	}
 	
 	public int numberOfFiles()
