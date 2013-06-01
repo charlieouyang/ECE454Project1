@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import justen.ConcurrencyManager;
+import justen.Status;
+
 public class PropertiesOfPeer {
 	//Global variables for the file server and client to access
 	public static String ipAddress = "localhost";
@@ -15,12 +18,45 @@ public class PropertiesOfPeer {
 	public static ArrayList<Entry> ipAddrPortNumMappingAlive = new ArrayList<Entry>();
 	public static boolean peerUp = true;
 	
+	//File management and synchronization stuff
+	public static ConcurrencyManager peerConcurrencyManager;
+	public static Status currentPeerStatus;
+	public static HashMap<String, Status> listOfOtherPeersStatus;		//PeerName mapped to status
+	
 	public PropertiesOfPeer(){
+		//Stuff to keep track of files/chunks and other peers
+		peerConcurrencyManager = new ConcurrencyManager(PeerName);
+		currentPeerStatus = new Status(peerConcurrencyManager);
+		listOfOtherPeersStatus = new HashMap<String, Status>();
+		
 		//List of ip address to port number mappings
 		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("localhost", 7000);
 		ipAddrPortNumMappingAll.add(entry1);
 		Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("localhost", 8000);
 		ipAddrPortNumMappingAll.add(entry2);
+	}
+	
+	//This will be used to update the peer's status info
+	public static void updateCurrentPeerStatus(){
+		
+	}
+	
+	//Receive status from another peer and update that info
+	public static void updateOtherPeersStatus(Message incomingMessageStatusFromAnotherPeer){
+		//Gotta make sure the data object is actually of the status class
+		Status anotherPeerStatus = null;
+		Object statusData = incomingMessageStatusFromAnotherPeer.getData();
+		String senderName = incomingMessageStatusFromAnotherPeer.getSenderName();
+		
+		//Don't know if the class comparison thing is correct
+		if (statusData != null && statusData instanceof Status){
+			anotherPeerStatus = (Status) incomingMessageStatusFromAnotherPeer.getData();
+			listOfOtherPeersStatus.put(senderName, anotherPeerStatus);
+		}
+		else{
+			//Don't do anything because it's an unknown object...
+			System.err.println("It's not a status object...");
+		}
 	}
 	
 	public static void AddEntryToIPAddrPortNumMappingAlive(String ipAddress, int portNumber){

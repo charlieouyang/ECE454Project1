@@ -20,12 +20,18 @@ public class Message implements Serializable {
     private int portNumber;			//Of sender
     private MESSAGE_TYPE msgType;
     private Object data;
+    private String senderName;
     
     public Message(String ipAddress, int portNumber, MESSAGE_TYPE type, Object data) {
     	this.ipAddress = ipAddress;
     	this.portNumber = portNumber;
     	this.msgType = type;
     	this.data = data;
+    	this.senderName = ipAddress+"."+portNumber;
+    }
+    
+    public String getSenderName(){
+    	return this.senderName;
     }
     
     public MESSAGE_TYPE getType() {
