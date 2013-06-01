@@ -2,6 +2,7 @@ package Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,7 +22,7 @@ public class PropertiesOfPeer {
 	//File management and synchronization stuff
 	public static ConcurrencyManager peerConcurrencyManager;
 	public static Status currentPeerStatus;
-	public static HashMap<String, Status> listOfOtherPeersStatus;		//PeerName mapped to status
+	public static Hashtable<String, Status> listOfOtherPeersStatus;		//PeerName mapped to status
 	ArrayList<String> listOfCompleteFiles;
 	ArrayList<String> listOfIncompleteFiles;
 	ArrayList<String> listOfChunks;
@@ -30,7 +31,7 @@ public class PropertiesOfPeer {
 		//Stuff to keep track of files/chunks and other peers
 		peerConcurrencyManager = new ConcurrencyManager(PeerName);
 		currentPeerStatus = new Status(peerConcurrencyManager);
-		listOfOtherPeersStatus = new HashMap<String, Status>();
+		listOfOtherPeersStatus = new Hashtable<String, Status>();
 		
 		listOfCompleteFiles = new ArrayList<String>();
 		listOfIncompleteFiles = new ArrayList<String>();
