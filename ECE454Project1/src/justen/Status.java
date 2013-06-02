@@ -17,7 +17,7 @@ public class Status implements Serializable{
 	public float[] system;
 	public int[] leastReplication;
 	public float[] weightedLeastReplication;
-	public HashSet<String> allChunks;
+	public Hashtable<String, String> allChunks;
 	public HashSet<TorrentFile> allFiles;
 	public Hashtable<String, Integer> allCompletedFiles; // <filename, #chunks>
 	public Hashtable<String, TorrentMetaData> allMetaData;

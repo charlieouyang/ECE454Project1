@@ -9,7 +9,7 @@ public class ConcurrencyManager {
 	private FileManager fileManager;
 	private String peerName;
 	private HashSet<TorrentFile> allFiles;
-	private HashSet<String> allIncompleteChunks;
+	private Hashtable<String, String> allIncompleteChunks;
 	private Hashtable<String, TorrentMetaData> allMetaData;
 
 	
@@ -17,13 +17,13 @@ public class ConcurrencyManager {
 		this.peerName = peerName;
 		fileManager = new FileManager(peerName);
 		allFiles = fileManager.getCompletedFiles();
-		allIncompleteChunks = fileManager.getLocalChunkList();
+		allIncompleteChunks = fileManager.getAllLocalChunks();
 		allMetaData = new Hashtable<String, TorrentMetaData>();
 	}
 	
 	public synchronized void refreshConcurrencyManager() {
 		allFiles = fileManager.getCompletedFiles();
-		allIncompleteChunks = fileManager.getLocalChunkList();
+		allIncompleteChunks = fileManager.getAllLocalChunks();
 	}
 	
 	public synchronized Hashtable<String, TorrentMetaData> getAllMetaData() {
@@ -38,7 +38,7 @@ public class ConcurrencyManager {
 		return allFiles;
 	}
 	
-	public synchronized HashSet<String> getIncompleteChunks() {
+	public synchronized Hashtable<String, String> getIncompleteChunks() {
 		return allIncompleteChunks;
 	}
 	
