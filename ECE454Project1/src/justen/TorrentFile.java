@@ -5,14 +5,16 @@ import java.io.File;
 public class TorrentFile {
 	private File file;
 	private long fileSize;
-	private long numChunks;
+	private int numChunks;
 	private String fileName;
 	
 	public TorrentFile(File f) {
 		file = f;
 		fileName = f.getName();
 		fileSize = file.length();
-		numChunks = (long) Math.ceil(fileSize/Constants.CHUNK_SIZE);
+		double tempVal = (double)fileSize/(double)Constants.CHUNK_SIZE;
+		double ceilVal = Math.ceil(tempVal);
+		numChunks = (int)ceilVal;
 	}
 	
 	public String getChunkName(int i) {

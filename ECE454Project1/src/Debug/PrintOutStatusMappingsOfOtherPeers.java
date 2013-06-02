@@ -26,7 +26,7 @@ public class PrintOutStatusMappingsOfOtherPeers extends Thread {
 				if (entry.getKey() != null || entry.getKey() != null) {
 					Status tempStatus = entry.getValue();
 					System.out.println("start");
-					System.out.println(entry.getKey() + tempStatus.numFiles);
+					System.out.println(entry.getKey() + ":" + tempStatus.numFiles);
 					System.out.println("end");
 				}
 			}

@@ -18,6 +18,7 @@ public class ConcurrencyManager {
 		fileManager = new FileManager(peerName);
 		allFiles = fileManager.getCompletedFiles();
 		allIncompleteChunks = fileManager.getLocalChunkList();
+		allMetaData = new Hashtable<String, TorrentMetaData>();
 	}
 	
 	public synchronized void refreshConcurrencyManager() {
