@@ -71,5 +71,16 @@ public class ConcurrencyManager {
 			return null;
 	}
 	
-//	public synchronized boolean writeChunk(TorrentFile tFile, )
+	public synchronized boolean writeChunk(String fileName, int chunkNum, byte[] data) {
+		if (chunkNum >= allMetaData.get(fileName).getNumberOfChunks())
+			return false;
+		
+		try {
+			fileManager.writeChunkToMemory(allMetaData.get(fileName), chunkNum, data);	
+		} catch (Exception e) {
+			return false;
+		}
+		
+		return true;
+	}
 }

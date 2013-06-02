@@ -17,4 +17,10 @@ public class TorrentMetaData {
 	public int getNumberOfChunks() {
 		return numChunks;
 	}
+	
+	public String getChunkName(int i) {
+		if (numChunks <= i) 
+			return null;
+		return fileName + "_chunk_" + i;
+	}
 }

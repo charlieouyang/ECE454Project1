@@ -83,8 +83,8 @@ public class FileManager {
 	 * @return Gets chunks associated with peer We will use the
 	 *         aggregateChunkListMethodHere
 	 */
-	public HashSet<String> getLocalChunkList() {
-		File dir = new File(chunkPath);
+	public HashSet<String> getLocalChunkList(String fileName) {
+		File dir = new File(chunkPath, fileName);
 		HashSet<String> chunkList = new HashSet<String>();
 
 		if (dir.isDirectory()) {
@@ -139,7 +139,7 @@ public class FileManager {
 	 * @param chunk
 	 *            Chunk data
 	 */
-	public void writeChunkToMemory(TorrentFile tFile, int chunkNum, byte[] chunk) {
+	public void writeChunkToMemory(TorrentMetaData tFile, int chunkNum, byte[] chunk) throws Exception {
 		if (chunkNum >= tFile.getNumberOfChunks())
 			return; // error
 
@@ -152,6 +152,8 @@ public class FileManager {
 		} catch (Exception e) {
 			System.out.println("Error writing the chunk to memory "
 					+ tFile.getChunkName(chunkNum));
+			throw new Exception("Error writing chunk to memory "
+					+ tFile.getChunkName(chunkNum));
 		} finally {
 			if (fos != null)
 				try {
@@ -162,7 +164,7 @@ public class FileManager {
 		}
 
 		// Check if all chunks are available.
-		HashSet<String> writtenChunks = this.getLocalChunkList();
+		HashSet<String> writtenChunks = this.getLocalChunkList(tFile.getFileName());
 		for (int i = 0; i < tFile.getNumberOfChunks(); i++) {
 			if (!writtenChunks.contains(tFile.getChunkName(i)))
 				return; // missing a chunk
@@ -208,7 +210,7 @@ public class FileManager {
 	 * @param chunkNum
 	 * @return Chunk data
 	 */
-	public byte[] getChunkData(TorrentFile tFile, int chunkNum) {
+	public byte[] getChunkData(TorrentMetaData tFile, int chunkNum) {
 		if (chunkNum >= tFile.getNumberOfChunks())
 			return null;
 
