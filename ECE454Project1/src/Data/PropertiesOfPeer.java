@@ -1,7 +1,6 @@
 package Data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -65,6 +64,9 @@ public class PropertiesOfPeer {
 		//Don't know if the class comparison thing is correct
 		if (statusData != null && statusData instanceof Status){
 			anotherPeerStatus = (Status) incomingMessageStatusFromAnotherPeer.getData();
+			
+			System.out.println("This is what you want!!!: " + anotherPeerStatus.numberOfFiles());
+			
 			listOfOtherPeersStatus.put(senderName, anotherPeerStatus);
 		}
 		else{

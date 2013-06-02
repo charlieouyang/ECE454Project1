@@ -1,9 +1,5 @@
 package FileServer;
 
-import java.awt.TrayIcon.MessageType;
-
-import justen.Status;
-
 import Data.Message;
 import Data.PropertiesOfPeer;
 

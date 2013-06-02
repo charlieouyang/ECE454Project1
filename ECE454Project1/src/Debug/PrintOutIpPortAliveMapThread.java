@@ -1,7 +1,5 @@
 package Debug;
 
-import java.io.IOException;
-import java.net.*;
 import java.util.Map.Entry;
 
 import Data.PropertiesOfPeer;
@@ -11,6 +9,7 @@ public class PrintOutIpPortAliveMapThread extends Thread {
 	public PrintOutIpPortAliveMapThread() {
 	}
 
+	@Override
 	public void run() {
 		while (true) {
 			System.out.println("Printing out alive list for peer: " + PropertiesOfPeer.portNumber);

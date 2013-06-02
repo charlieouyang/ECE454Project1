@@ -1,9 +1,7 @@
 package FileClient;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.*;
+import java.net.Socket;
 
 import Data.Message;
 import Data.PropertiesOfPeer;
@@ -22,6 +20,7 @@ public class ClientBradcastUpConnection extends Thread {
 	}
 
 	// Contact the peer and ask for a list of files
+	@Override
 	public void run() {
 		System.out.println("Connecting to: " + ipAddress + ", " + portNumber);
 		try {

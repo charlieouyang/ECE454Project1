@@ -1,7 +1,6 @@
 package justen;
 
 import java.io.File;
-import java.nio.file.Files;
 
 public class TorrentFile {
 	private File file;
