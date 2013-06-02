@@ -39,6 +39,8 @@ public class CheckForNewFileToGet extends Thread {
 				while (fileNameAndMetaDataToGetList.hasNext()) {
 					Map.Entry<String, TorrentMetaData> entry = fileNameAndMetaDataToGetList.next();
 					GetFileThread getFileThread = new GetFileThread(entry.getKey(), entry.getValue());
+					getFileThread.start();
+					
 					fileNameAndMetaDataToGetList.remove();
 				}
 			}
