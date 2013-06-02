@@ -5,28 +5,30 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import Data.PropertiesOfPeer;
 import Main.Peer;
 
 public class Status implements Serializable{
 
-	private int numFiles;
-	float[] local;
-	float[] system;
-	int[] leastReplication;
-	float[] weightedLeastReplication;
-	HashSet<String> allChunks;
+	public int numFiles;
+	public float[] local;
+	public float[] system;
+	public int[] leastReplication;
+	public float[] weightedLeastReplication;
+	public HashSet<String> allChunks;
+	public HashSet<TorrentFile> allFiles;
+	public Hashtable<String, Integer> allCompletedFiles;
+	public Hashtable<String, TorrentMetaData> allMetaData;
 	
-	Hashtable<String, Integer> allCompletedFiles;
-	Hashtable<String, TorrentMetaData> allMetaData;
-	
-	Hashtable<String, Integer> fileNameIndexMap;
+	public Hashtable<String, Integer> fileNameIndexMap;
 	
 	
 	public Status(ConcurrencyManager cm) {
 		super();
 		HashSet<TorrentFile> completedFiles = cm.getAllFiles();
+		allFiles = completedFiles;
 		numFiles = completedFiles.size();
 		if (numFiles == 0)
 			return;
@@ -56,14 +58,21 @@ public class Status implements Serializable{
 			
 			int numberOfChunks = (int)tFile.getNumberOfChunks();
 			totalNumberOfChunks += numberOfChunks;
-			
-			int[] replicatedChunks = new int[numberOfChunks];
+
 			int localNumChunks = 0, systemNumChunks = 0;
+			int[] replicatedChunks = new int[numberOfChunks];
 			
 			for (int k = 0; k < numberOfChunks; k++) {
 				if (cm.getIncompleteChunks().contains(tFile.getChunkName(k))) {
 					localNumChunks++;
+					systemNumChunks++;
 					replicatedChunks[k]++;
+				}
+				for (Entry<String, Status> e : temp.entrySet()) {
+					if(e.getValue().containsChunk(tFile.getChunkName(k))) {
+						systemNumChunks++;
+						replicatedChunks[k]++;
+					}
 				}
 					// if peer has this chunk
 						// systemNumChunks++
@@ -87,8 +96,23 @@ public class Status implements Serializable{
 		}
 	}
 	
+	//justen_chunk_1
 	public boolean containsChunk(String chunkName) {
-		return allChunks.contains(chunkName);
+		boolean contains = false;
+		String fileName;
+		
+		int secondLastUnderScore = chunkName.lastIndexOf("_", chunkName.length() - 6);
+		fileName = chunkName.substring(0, secondLastUnderScore);
+		
+		if (allChunks.contains(chunkName))
+			return true;
+		
+		for (TorrentFile t : allFiles) {
+			if (t.getFileName().equals(fileName))
+				return true;
+		}
+		
+		return false;
 	}
 	
 	public int numberOfFiles()
