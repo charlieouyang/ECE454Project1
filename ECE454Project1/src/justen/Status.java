@@ -1,5 +1,6 @@
 package justen;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -8,7 +9,7 @@ import java.util.Map;
 import Data.PropertiesOfPeer;
 import Main.Peer;
 
-public class Status {
+public class Status implements Serializable{
 
 	private int numFiles;
 	float[] local;
@@ -24,6 +25,7 @@ public class Status {
 	
 	
 	public Status(ConcurrencyManager cm) {
+		super();
 		HashSet<TorrentFile> completedFiles = cm.getAllFiles();
 		numFiles = completedFiles.size();
 		if (numFiles == 0)
