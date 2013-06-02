@@ -19,7 +19,7 @@ public class Status implements Serializable{
 	public float[] weightedLeastReplication;
 	public HashSet<String> allChunks;
 	public HashSet<TorrentFile> allFiles;
-	public Hashtable<String, Integer> allCompletedFiles;
+	public Hashtable<String, Integer> allCompletedFiles; // <filename, #chunks>
 	public Hashtable<String, TorrentMetaData> allMetaData;
 	
 	public Hashtable<String, Integer> fileNameIndexMap;
@@ -50,7 +50,7 @@ public class Status implements Serializable{
 		weightedLeastReplication = new float[numFiles];
 		int totalNumberOfChunks = 0;
 		
-		TorrentFile[] allFilesArray = (TorrentFile[]) cm.getAllFiles().toArray();
+		TorrentFile[] allFilesArray = (TorrentFile[]) completedFiles.toArray();
 		for (int i = 0; i < numFiles; i++) {
 			TorrentFile tFile = allFilesArray[i];
 			
