@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import justen.ConcurrencyManager;
 import justen.Status;
+import justen.TorrentMetaData;
 
 public class PropertiesOfPeer {
 	//Global variables for the file server and client to access
@@ -64,10 +65,11 @@ public class PropertiesOfPeer {
 		//Don't know if the class comparison thing is correct
 		if (statusData != null && statusData instanceof Status){
 			anotherPeerStatus = (Status) incomingMessageStatusFromAnotherPeer.getData();
-			
-			System.out.println("This is what you want!!!: " + anotherPeerStatus.numberOfFiles());
-			
 			listOfOtherPeersStatus.put(senderName, anotherPeerStatus);
+			
+			//Update your local metaData file in accordance to response metaData
+			Hashtable<String, TorrentMetaData> metaDataTable = anotherPeerStatus.allMetaData;
+			UpdateThisPeerMetaDataTable(metaDataTable);
 		}
 		else{
 			//Don't do anything because it's an unknown object...
@@ -106,5 +108,10 @@ public class PropertiesOfPeer {
 	
 	public static void StartThisPeer(){
 		peerUp = true;
+	}
+	
+	public static void UpdateThisPeerMetaDataTable(Hashtable<String, TorrentMetaData> listOfFilesAndMetaData){
+		//This is replacing all existing entries and adding new ones
+		currentPeerStatus.allMetaData.putAll(listOfFilesAndMetaData);
 	}
 }

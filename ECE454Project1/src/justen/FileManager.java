@@ -105,11 +105,8 @@ public class FileManager {
 			System.out.println("Error inserting: " + fileName);
 			return null;
 		}
-		File temp = target.toFile();
 		
-		if (temp.getName().equals(fileName))
-			return new TorrentFile(temp);
-		return null;
+		return new TorrentFile(file);
 	}
 	
 	/**

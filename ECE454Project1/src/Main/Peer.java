@@ -1,4 +1,5 @@
 package Main;
+import justen.DirectoryHelper;
 import Data.PropertiesOfPeer;
 import Debug.PrintOutStatusMappingsOfOtherPeers;
 import FileClient.ClientBroadcastStatus;
@@ -11,6 +12,8 @@ public class Peer {
 	public static void main(String [ ] args)
 	{
 		final PropertiesOfPeer properties = new PropertiesOfPeer();
+		DirectoryHelper.createAllDirectories(properties.PeerName);
+		properties.peerConcurrencyManager.insertFile("C:\\Users\\Charlie\\Desktop\\CharlieResume.pdf");
 		
 		//Main execution point
 		
