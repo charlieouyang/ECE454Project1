@@ -2,6 +2,7 @@ package Main;
 import justen.DirectoryHelper;
 import Data.PropertiesOfPeer;
 import Debug.PrintOutStatusMappingsOfOtherPeers;
+import FileClient.CheckForNewFileToGet;
 import FileClient.ClientBroadcastStatus;
 import FileClient.ClientBroadcastUp;
 import FileServer.FileServer;
@@ -13,7 +14,7 @@ public class Peer {
 	{
 		final PropertiesOfPeer properties = new PropertiesOfPeer();
 		DirectoryHelper.createAllDirectories(properties.PeerName);
-		properties.peerConcurrencyManager.insertFile("C:\\Users\\Charlie\\Desktop\\CharlieResume.pdf");
+		//properties.peerConcurrencyManager.insertFile("C:\\Users\\Charlie\\Desktop\\CharlieResume.pdf");
 		
 		//Main execution point
 		
@@ -80,6 +81,9 @@ public class Peer {
 		
 		PrintOutStatusMappingsOfOtherPeers debugThread2 = new PrintOutStatusMappingsOfOtherPeers();
 		debugThread2.start();
+		
+		CheckForNewFileToGet checkForNewFileThread = new CheckForNewFileToGet();
+		checkForNewFileThread.start();
 		
 		//Shutdown the server!
 		//CloseThisConnectionThread closePeerThread = new CloseThisConnectionThread();
