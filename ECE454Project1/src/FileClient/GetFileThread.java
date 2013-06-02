@@ -24,7 +24,7 @@ public class GetFileThread extends Thread {
 			Hashtable <String, String> chunkToHostMapping = new Hashtable<String, String>();
 			int numberOfChunks = fileMettaData.getNumberOfChunks();
 			
-			for (int i = 0; i < numberOfChunks - 1; i++) {
+			for (int i = 0; i < numberOfChunks; i++) {
 				chunkToHostMapping.put(fileName + "_chunk_" + i, "localhost.7000");
 			}
 			
