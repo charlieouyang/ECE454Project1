@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import Data.ChunkRequest;
 import Data.Message;
 import Data.Message.MESSAGE_TYPE;
 
@@ -11,11 +12,13 @@ public class RequestForChunk extends Thread {
 	private String destIpAddress;
 	private int destPortNumber;
 	private String chunkName;
+	private int chunkNumber;
 
-    public RequestForChunk(String hostName, String chunkName) {
+    public RequestForChunk(String chunkName, String hostName, int chunkNumber) {
     	this.destIpAddress = GetIpAddressFromName(hostName);
     	this.destPortNumber = GetPortNumberFromName(hostName);
     	this.chunkName = chunkName;
+    	this.chunkNumber = chunkNumber;
     }
 
     //This thread will do 2 things
@@ -30,7 +33,9 @@ public class RequestForChunk extends Thread {
 			//Send to other peer response
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());			
 
-			Message requestChunkMessage = new Message(destIpAddress, destPortNumber, MESSAGE_TYPE.CHUNK_REQUEST, chunkName);
+			ChunkRequest chunkRequest = new ChunkRequest(chunkName, chunkNumber);
+			
+			Message requestChunkMessage = new Message(destIpAddress, destPortNumber, MESSAGE_TYPE.CHUNK_REQUEST, chunkRequest);
 			
 			objectOutputStream.writeObject(requestChunkMessage);
 

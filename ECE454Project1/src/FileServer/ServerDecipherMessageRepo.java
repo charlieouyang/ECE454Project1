@@ -1,5 +1,6 @@
 package FileServer;
 
+import Data.ChunkRequest;
 import Data.Message;
 import Data.PropertiesOfPeer;
 
@@ -27,6 +28,11 @@ public class ServerDecipherMessageRepo {
 		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_REQUEST)){
 			//Call the chunk manager to send chunk
 			//No need for another thread since FileServerThreadWorkDispatcher will send the return message
+			ChunkRequest request = (ChunkRequest)incomingMessage.getData();
+			String fileName = request.getFileName();
+			int chunkNum = request.getChunkNumber();
+			PropertiesOfPeer.peerConcurrencyManager.getChunkData(fileName, chunkNum);
+			
 			returnMessage = ReturnChunkFromChunkRequest(incomingMessage);
 		}
 		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_RESPONSE)){
