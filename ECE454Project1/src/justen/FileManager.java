@@ -50,7 +50,8 @@ public class FileManager {
 	 * @return If peer has the specified chunk
 	 */
 	public boolean hasChunk(String fileName, int chunkNum) {
-		HashSet<String> chunks = getLocalChunkList();
+		HashSet<String> chunks = 
+				HelperClass.GetChunkListFromAggregate(fileName, getAllLocalChunks().get(fileName));
 		for (String s : chunks) {
 			if (s.equals(fileName + "_chunk_" + chunkNum))
 				return true;
