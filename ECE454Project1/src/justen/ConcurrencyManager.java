@@ -11,6 +11,7 @@ public class ConcurrencyManager {
 	private HashSet<TorrentFile> allFiles;
 	private HashSet<String> allIncompleteChunks;
 	private Hashtable<String, TorrentMetaData> allMetaData;
+
 	
 	public ConcurrencyManager(String peerName) {
 		this.peerName = peerName;
@@ -55,7 +56,7 @@ public class ConcurrencyManager {
 		
 		TorrentFile tFile = fileManager.copyFileFromRepo(fileName);
 		allFiles.add(tFile);
-		allMetaData.put(tFile.getFileName(), new TorrentMetaData(tFile));
+		allMetaData.put(tFile.getFileName(), new TorrentMetaData(tFile.getFileName(), (int)tFile.getNumberOfChunks()));
 		
 		return 0;
 	}
@@ -68,4 +69,6 @@ public class ConcurrencyManager {
 		else
 			return null;
 	}
+	
+//	public synchronized boolean writeChunk(TorrentFile tFile, )
 }
