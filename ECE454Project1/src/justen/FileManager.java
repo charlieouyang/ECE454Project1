@@ -105,12 +105,10 @@ public class FileManager {
 			System.out.println("Error inserting: " + fileName);
 			return null;
 		}
-		File[] subDirs = target.toFile().listFiles();
+		File temp = target.toFile();
 		
-		for (File f : subDirs) {
-			if (f.getName().equals(fileName))
-				return new TorrentFile(f);
-		}
+		if (temp.getName().equals(fileName))
+			return new TorrentFile(temp);
 		return null;
 	}
 	
