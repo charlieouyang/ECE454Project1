@@ -1,7 +1,9 @@
 package FileServer;
 
 import Data.ChunkRequest;
+import Data.ChunkResponse;
 import Data.Message;
+import Data.Message.MESSAGE_TYPE;
 import Data.PropertiesOfPeer;
 
 public class ServerDecipherMessageRepo {
@@ -31,9 +33,10 @@ public class ServerDecipherMessageRepo {
 			ChunkRequest request = (ChunkRequest)incomingMessage.getData();
 			String fileName = request.getFileName();
 			int chunkNum = request.getChunkNumber();
-			PropertiesOfPeer.peerConcurrencyManager.getChunkData(fileName, chunkNum);
+			byte[] chunk = PropertiesOfPeer.peerConcurrencyManager.getChunkData(fileName, chunkNum);
+			ChunkResponse chunkResponse = new ChunkResponse(fileName, chunkNum, chunk);
 			
-			returnMessage = ReturnChunkFromChunkRequest(incomingMessage);
+			returnMessage = new Message(incomingMessage.getIpAddress(), incomingMessage.getPortNumber(), MESSAGE_TYPE.CHUNK_RESPONSE, chunkResponse);
 		}
 		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_RESPONSE)){
 			//Do some chunk operations to update this peer
@@ -77,20 +80,6 @@ public class ServerDecipherMessageRepo {
 		int portNumber = closingMessage.getPortNumber();
 		PropertiesOfPeer.RemoveEntryFromIPAddrPortNumMappingAlive(ipAddress, portNumber);
 		return null;
-	}
-	
-	/*
-	public static Message GenerateChunkRequest(){
-		
-	}
-	*/
-	
-	public static Message ReturnChunkFromChunkRequest(Message chunkRequestMessage){
-		// Call Pinto's method to get a chunk based on the chunkRequestMessage
-		// and return the requested chunk
-		// Pinto'sMethod(chunkRequestMessage)
-		Message returnChunkMessage = new Message("", 0, null, null);
-		return returnChunkMessage;
 	}
 	
 	public static Message ReturnStatusFromStatusRequest(Message statusRequestMessage){
