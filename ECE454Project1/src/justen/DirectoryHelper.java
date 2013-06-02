@@ -35,6 +35,14 @@ public class DirectoryHelper {
 		return dir.mkdir();
 	}
 	
+	public static boolean createDirectory(String name, String fileName) {
+		File dir = new File(name + "\\chunks", fileName);
+		if (dir.isDirectory())
+			return true;
+		else 
+			return dir.mkdir();
+	}
+	
 	/*
 	 * Recursively deletes all files in directory
 	 * */
@@ -53,12 +61,12 @@ public class DirectoryHelper {
 	    folder.delete();
 	}
 	
-	public static ArrayList<String> getAggregateChunkList(String directory){
+	public static String getAggregateChunkList(String directory){
 		File folder = new File(directory);
 		File[] listOfFiles = folder.listFiles();
 		
 		ArrayList<Integer> listOfChunkNumbers = new ArrayList<Integer>();
-
+		
 		for (int i = 0; i < listOfFiles.length; i++) {
 			//It's a file
 			if (listOfFiles[i].isFile()) {
@@ -83,6 +91,7 @@ public class DirectoryHelper {
 		
 		//int previousValue = 0;
 		ArrayList<String> listOfRanges = new ArrayList<String>();
+		
 		
 		int shouldBeValue = 0;
 		boolean hiccup = false;
@@ -131,7 +140,8 @@ public class DirectoryHelper {
 			lastValueTracker++;
 		}
 		
-		ArrayList<String> finalListOfRanges = new ArrayList<String>();
+		//ArrayList<String> finalListOfRanges = new ArrayList<String>();
+		String overallString = "";
 		
 		for (String range : listOfRanges){
 			int indexOfDash = range.indexOf("-");
@@ -139,13 +149,16 @@ public class DirectoryHelper {
 			String secondNumber = range.substring(indexOfDash + 1, range.length());
 			
 			if (firstNumber.equals(secondNumber)){
-				finalListOfRanges.add(firstNumber);
+				//finalListOfRanges.add(firstNumber);
+				overallString = overallString + firstNumber + ",";
 			}
 			else{
-				finalListOfRanges.add(range);
+				//finalListOfRanges.add(range);
+				overallString = overallString + range + ",";
 			}
 		}
 		
-		return finalListOfRanges;
+		return overallString;
+		//return finalListOfRanges;
 	}
 }

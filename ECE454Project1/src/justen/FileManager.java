@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.Hashtable;
 
 public class FileManager {
 
@@ -57,6 +58,26 @@ public class FileManager {
 		return false;
 	}
 
+	public Hashtable<String, String> getAllLocalChunks() {
+		File dir = new File(chunkPath);
+		
+		File[] subDirs = dir.listFiles();
+		if (subDirs == null) 
+			return null; // no chunks
+		
+		Hashtable<String, String> temp = new Hashtable<String, String>();
+		
+		for (File sd : subDirs) {
+			if (sd.isDirectory()) {
+				temp.put(sd.getName(), DirectoryHelper.getAggregateChunkList(sd.getAbsolutePath()));
+			} else {
+				// error, we should not be here
+			}
+		}
+		
+		return temp;
+	}
+	
 	/**
 	 * @return Gets chunks associated with peer We will use the
 	 *         aggregateChunkListMethodHere
