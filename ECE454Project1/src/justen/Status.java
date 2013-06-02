@@ -50,7 +50,7 @@ public class Status implements Serializable{
 		weightedLeastReplication = new float[numFiles];
 		int totalNumberOfChunks = 0;
 		
-		TorrentFile[] allFilesArray = (TorrentFile[]) completedFiles.toArray();
+		TorrentFile[] allFilesArray = completedFiles.toArray(new TorrentFile[completedFiles.size()]);
 		for (int i = 0; i < numFiles; i++) {
 			TorrentFile tFile = allFilesArray[i];
 			
