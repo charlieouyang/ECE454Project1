@@ -48,6 +48,9 @@ public class Peer {
 		//3 When insert() file, need to build torrentFile, update list of files, and metadata(number of chunks)
 		//  in order to update status for broadcast
 		
+		//4 Compare allFilesList with this peer and conclude files that we will need
+		//5 Build request thread to get chunks
+		
 		UserInputThread userInputThread = new UserInputThread();
 		userInputThread.start();
 		
