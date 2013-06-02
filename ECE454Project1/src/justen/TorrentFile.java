@@ -1,8 +1,9 @@
 package justen;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class TorrentFile {
+public class TorrentFile implements Serializable {
 	private File file;
 	private long fileSize;
 	private int numChunks;

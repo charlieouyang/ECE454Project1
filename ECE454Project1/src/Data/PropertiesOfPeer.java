@@ -44,8 +44,8 @@ public class PropertiesOfPeer {
 		//List of ip address to port number mappings
 		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("localhost", 7000);
 		ipAddrPortNumMappingAll.add(entry1);
-		Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("localhost", 8000);
-		ipAddrPortNumMappingAll.add(entry2);
+		//Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("localhost", 8000);
+		//ipAddrPortNumMappingAll.add(entry2);
 	}
 	
 	//This will be used to update the peer's status info
@@ -116,7 +116,12 @@ public class PropertiesOfPeer {
 	
 	public static void UpdateThisPeerMetaDataTable(Hashtable<String, TorrentMetaData> listOfFilesAndMetaData){
 		//This is replacing all existing entries and adding new ones
-		currentPeerStatus.allMetaData.putAll(listOfFilesAndMetaData);
+		if(currentPeerStatus.allMetaData == null){
+			System.out.println("Current size of allMetaDataForThisPeer : " + currentPeerStatus.allMetaData.size());
+		}
+		else{
+			System.out.println("It's not null");
+		}
 		
 		Iterator<Map.Entry<String, TorrentMetaData>> otherPeersMetaData = listOfFilesAndMetaData.entrySet().iterator();
 
@@ -127,5 +132,7 @@ public class PropertiesOfPeer {
 				listOfFilesToGet.put(entry.getKey(), entry.getValue());
 			}
 		}
+		
+		currentPeerStatus.allMetaData.putAll(listOfFilesAndMetaData);
 	}
 }

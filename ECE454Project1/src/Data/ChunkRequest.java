@@ -1,6 +1,8 @@
 package Data;
 
-public class ChunkRequest {
+import java.io.Serializable;
+
+public class ChunkRequest implements Serializable{
 	private String fileName;
 	private int chunkNumber;
 	

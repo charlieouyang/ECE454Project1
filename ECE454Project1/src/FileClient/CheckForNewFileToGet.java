@@ -16,6 +16,7 @@ public class CheckForNewFileToGet extends Thread {
 	
 	public CheckForNewFileToGet() {
 		fileListAlreadyGetting = new ArrayList<String>();
+		inProcessOfGettingChunks = new Hashtable<String, TorrentMetaData>();
 	}
 
 	@Override
@@ -23,26 +24,35 @@ public class CheckForNewFileToGet extends Thread {
 		try {
 			// Keep checking for new files to get
 			while (true){
-				//Add new file entry
-				Iterator<Map.Entry<String, TorrentMetaData>> otherPeersMetaData = PropertiesOfPeer.listOfFilesToGet.entrySet().iterator();
-				while (otherPeersMetaData.hasNext()) {
-					Map.Entry<String, TorrentMetaData> entry = otherPeersMetaData.next();
+				
+				if (PropertiesOfPeer.listOfFilesToGet.size() > 0) {
+					// Add new file entry
+					Iterator<Map.Entry<String, TorrentMetaData>> otherPeersMetaData = PropertiesOfPeer.listOfFilesToGet.entrySet().iterator();
 					
-					if (!fileListAlreadyGetting.contains(entry.getKey())){
-						inProcessOfGettingChunks.put(entry.getKey(), entry.getValue());
-						fileListAlreadyGetting.add(entry.getKey());
+					while (otherPeersMetaData.hasNext()) {
+						Map.Entry<String, TorrentMetaData> entry = otherPeersMetaData.next();
+
+						if (!fileListAlreadyGetting.contains(entry.getKey())) {
+							
+							String tempStr = entry.getKey();
+							TorrentMetaData tempData = entry.getValue();
+							
+							inProcessOfGettingChunks.put(entry.getKey(), entry.getValue());
+							fileListAlreadyGetting.add(entry.getKey());
+						}
+					}
+
+					// Start getting the file
+					Iterator<Map.Entry<String, TorrentMetaData>> fileNameAndMetaDataToGetList = inProcessOfGettingChunks.entrySet().iterator();
+					while (fileNameAndMetaDataToGetList.hasNext()) {
+						Map.Entry<String, TorrentMetaData> entry = fileNameAndMetaDataToGetList.next();
+						GetFileThread getFileThread = new GetFileThread(entry.getKey(), entry.getValue());
+						getFileThread.start();
+
+						fileNameAndMetaDataToGetList.remove();
 					}
 				}
-				
-				//Start getting the file
-				Iterator<Map.Entry<String, TorrentMetaData>> fileNameAndMetaDataToGetList = inProcessOfGettingChunks.entrySet().iterator();
-				while (fileNameAndMetaDataToGetList.hasNext()) {
-					Map.Entry<String, TorrentMetaData> entry = fileNameAndMetaDataToGetList.next();
-					GetFileThread getFileThread = new GetFileThread(entry.getKey(), entry.getValue());
-					getFileThread.start();
-					
-					fileNameAndMetaDataToGetList.remove();
-				}
+
 			}
 		} catch (Exception e) {
 			System.err.println("Screwed up on check for new files to get");

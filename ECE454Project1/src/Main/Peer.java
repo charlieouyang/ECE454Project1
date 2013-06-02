@@ -79,8 +79,8 @@ public class Peer {
 		//PrintOutIpPortAliveMapThread debugThread = new PrintOutIpPortAliveMapThread();
 		//debugThread.start();
 		
-		PrintOutStatusMappingsOfOtherPeers debugThread2 = new PrintOutStatusMappingsOfOtherPeers();
-		debugThread2.start();
+		//PrintOutStatusMappingsOfOtherPeers debugThread2 = new PrintOutStatusMappingsOfOtherPeers();
+		//debugThread2.start();
 		
 		CheckForNewFileToGet checkForNewFileThread = new CheckForNewFileToGet();
 		checkForNewFileThread.start();

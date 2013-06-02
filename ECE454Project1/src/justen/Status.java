@@ -30,8 +30,6 @@ public class Status implements Serializable{
 		HashSet<TorrentFile> completedFiles = cm.getAllFiles();
 		allFiles = completedFiles;
 		numFiles = completedFiles.size();
-		if (numFiles == 0)
-			return;
 		allCompletedFiles = new Hashtable<String, Integer>();
 		fileNameIndexMap = new Hashtable<String,Integer>();
 		allMetaData = cm.getAllMetaData(); 
@@ -43,6 +41,9 @@ public class Status implements Serializable{
 		}
 		
 		allChunks = cm.getIncompleteChunks();
+		
+		if (numFiles == 0)
+			return;
 		
 		local = new float[numFiles];
 		system = new float[numFiles];
@@ -62,22 +63,31 @@ public class Status implements Serializable{
 			int localNumChunks = 0, systemNumChunks = 0;
 			int[] replicatedChunks = new int[numberOfChunks];
 			
-			for (int k = 0; k < numberOfChunks; k++) {
-				if (cm.getIncompleteChunks().contains(tFile.getChunkName(k))) {
-					localNumChunks++;
-					systemNumChunks++;
-					replicatedChunks[k]++;
-				}
-				for (Entry<String, Status> e : temp.entrySet()) {
-					if(e.getValue().containsChunk(tFile.getChunkName(k))) {
+			//Added if statement to skip loop if there's no chunks... 
+			//GOTTA CHECK IF THIS IS CORRECT
+			if (cm.getIncompleteChunks() != null) {
+				for (int k = 0; k < numberOfChunks; k++) {
+					
+					Hashtable tempHash = cm.getIncompleteChunks();
+					String tempName = tFile.getChunkName(k);
+					
+					if (cm.getIncompleteChunks()
+							.contains(tFile.getChunkName(k))) {
+						localNumChunks++;
 						systemNumChunks++;
 						replicatedChunks[k]++;
 					}
-				}
+					for (Entry<String, Status> e : temp.entrySet()) {
+						if (e.getValue().containsChunk(tFile.getChunkName(k))) {
+							systemNumChunks++;
+							replicatedChunks[k]++;
+						}
+					}
 					// if peer has this chunk
-						// systemNumChunks++
-						// replicatedChunks[k]++
-				// iterate through the map and check 
+					// systemNumChunks++
+					// replicatedChunks[k]++
+					// iterate through the map and check
+				}
 			}
 			
 			local[i] = (float) localNumChunks / numberOfChunks;

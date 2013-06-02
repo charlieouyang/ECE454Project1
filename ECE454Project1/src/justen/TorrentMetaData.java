@@ -1,6 +1,8 @@
 package justen;
 
-public class TorrentMetaData {
+import java.io.Serializable;
+
+public class TorrentMetaData implements Serializable{
 	
 	private String fileName;
 	private int numChunks;
