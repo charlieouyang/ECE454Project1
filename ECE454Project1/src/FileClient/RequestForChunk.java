@@ -6,6 +6,7 @@ import java.net.Socket;
 import Data.ChunkRequest;
 import Data.Message;
 import Data.Message.MESSAGE_TYPE;
+import Data.PropertiesOfPeer;
 
 public class RequestForChunk extends Thread {
 	private Socket socket = null;
@@ -28,14 +29,15 @@ public class RequestForChunk extends Thread {
 	public void run() {
 
 		try {
-		    
+		    System.out.println("Sending chunk request " + chunkName + chunkNumber + " to " + destPortNumber);
+			
 			Socket socket = new Socket(destIpAddress, destPortNumber);
 			//Send to other peer response
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());			
 
 			ChunkRequest chunkRequest = new ChunkRequest(chunkName, chunkNumber);
 			
-			Message requestChunkMessage = new Message(destIpAddress, destPortNumber, MESSAGE_TYPE.CHUNK_REQUEST, chunkRequest);
+			Message requestChunkMessage = new Message(PropertiesOfPeer.ipAddress, PropertiesOfPeer.portNumber, MESSAGE_TYPE.CHUNK_REQUEST, chunkRequest);
 			
 			objectOutputStream.writeObject(requestChunkMessage);
 

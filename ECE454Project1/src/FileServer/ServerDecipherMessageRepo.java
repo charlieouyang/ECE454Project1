@@ -17,9 +17,15 @@ public class ServerDecipherMessageRepo {
 		
 		//Peer connection establishment management messages
 		if (type.equals(Message.MESSAGE_TYPE.PEER_DISCOVER)){
+			
+			System.out.println("********** RECEIVED PEER DISCOVER **********");
+			
 			returnMessage = RespondToAnotherPeerBroadCastMessage(incomingMessage);
 		}
 		else if (type.equals(Message.MESSAGE_TYPE.ACK_PEER_DISCOVER)){
+			
+			System.out.println("********** RECEVIED ACK FROM OTHER PPER **********");
+			
 			returnMessage = ReceiveBroadcastStatusFromPeer(incomingMessage);
 		}
 		else if (type.equals(Message.MESSAGE_TYPE.PEER_LEAVING)){
@@ -28,6 +34,9 @@ public class ServerDecipherMessageRepo {
 		
 		//Chunk send and receive messages
 		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_REQUEST)){
+			
+			System.out.println("********** RECEVIED CHUNK REQUEST **********");
+			
 			//Call the chunk manager to send chunk
 			//No need for another thread since FileServerThreadWorkDispatcher will send the return message
 			ChunkRequest request = (ChunkRequest)incomingMessage.getData();
@@ -36,10 +45,23 @@ public class ServerDecipherMessageRepo {
 			byte[] chunk = PropertiesOfPeer.peerConcurrencyManager.getChunkData(fileName, chunkNum);
 			ChunkResponse chunkResponse = new ChunkResponse(fileName, chunkNum, chunk);
 			
-			returnMessage = new Message(incomingMessage.getIpAddress(), incomingMessage.getPortNumber(), MESSAGE_TYPE.CHUNK_RESPONSE, chunkResponse);
+			returnMessage = new Message(PropertiesOfPeer.ipAddress, PropertiesOfPeer.portNumber, MESSAGE_TYPE.CHUNK_RESPONSE, chunkResponse);
 		}
 		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_RESPONSE)){
-			//Do some chunk operations to update this peer
+			
+			System.out.println("********** RECEVIED CHUNK RESPONSE **********");
+			
+			System.out.println("Got chunk response");
+			
+			ChunkResponse response = (ChunkResponse)incomingMessage.getData();
+			String fileName = response.getFileName();
+			int chunkNum = response.getChunkNumber();
+			byte[] chunk = response.getData();
+			
+			System.out.println("This is what I got... " + fileName + chunkNum);
+			
+			PropertiesOfPeer.peerConcurrencyManager.writeChunk(fileName, chunkNum, chunk);
+			
 			returnMessage = ReceiveChunkResponse(incomingMessage);
 		}
 		
