@@ -1,7 +1,7 @@
 package FileServer;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.ServerSocket;
 
 import Data.PropertiesOfPeer;
 
@@ -13,6 +13,7 @@ public class FileServer extends Thread {
 		this.portNumber = portNumber;
 	}
 
+	@Override
 	public void run() {
 		try {
 			boolean serverListening = true;

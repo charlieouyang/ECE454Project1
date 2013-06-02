@@ -1,18 +1,10 @@
 package Main;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import UserInput.UserInputThread;
-
+import Data.PropertiesOfPeer;
+import Debug.PrintOutStatusMappingsOfOtherPeers;
 import FileClient.ClientBroadcastStatus;
 import FileClient.ClientBroadcastUp;
-import FileClient.ClientCloseThisBroadcast;
-import FileClient.CloseThisConnectionThread;
 import FileServer.FileServer;
-import Data.*;
-import Debug.PrintOutIpPortAliveMapThread;
+import UserInput.UserInputThread;
 
 public class Peer {
 	
@@ -56,7 +48,7 @@ public class Peer {
 		UserInputThread userInputThread = new UserInputThread();
 		userInputThread.start();
 		
-		FileServer fileServerThread = new FileServer(properties.portNumber);
+		FileServer fileServerThread = new FileServer(PropertiesOfPeer.portNumber);
 		fileServerThread.start();
 		System.out.println("Running file server thread");
 		
@@ -67,17 +59,21 @@ public class Peer {
 		}
 
 		// 2) Invoke the File Client Thread		
-		ClientBroadcastUp fileClientThread = new ClientBroadcastUp(properties.ipAddrPortNumMappingAll);
+		ClientBroadcastUp fileClientThread = new ClientBroadcastUp(PropertiesOfPeer.ipAddrPortNumMappingAll);
 		fileClientThread.start();
 		
 		// Broadcast thread for status
-		ClientBroadcastStatus statusBroadcastThread = new ClientBroadcastStatus(properties.ipAddrPortNumMappingAll);
+		ClientBroadcastStatus statusBroadcastThread = new ClientBroadcastStatus(PropertiesOfPeer.ipAddrPortNumMappingAll);
 		statusBroadcastThread.start();
 		
 		System.out.println("Running file client thread");
 		
-		PrintOutIpPortAliveMapThread debugThread = new PrintOutIpPortAliveMapThread();
-		debugThread.start();
+		//Debugging stuff
+		//PrintOutIpPortAliveMapThread debugThread = new PrintOutIpPortAliveMapThread();
+		//debugThread.start();
+		
+		PrintOutStatusMappingsOfOtherPeers debugThread2 = new PrintOutStatusMappingsOfOtherPeers();
+		debugThread2.start();
 		
 		//Shutdown the server!
 		//CloseThisConnectionThread closePeerThread = new CloseThisConnectionThread();
