@@ -27,6 +27,9 @@ public class PropertiesOfPeer {
 	ArrayList<String> listOfIncompleteFiles;
 	ArrayList<String> listOfChunks;
 	
+	//Chunk sending managment and stuff
+	public static Hashtable<String, TorrentMetaData> listOfFilesToGet;
+	
 	public PropertiesOfPeer(){
 		//Stuff to keep track of files/chunks and other peers
 		peerConcurrencyManager = new ConcurrencyManager(PeerName);
@@ -36,6 +39,7 @@ public class PropertiesOfPeer {
 		listOfCompleteFiles = new ArrayList<String>();
 		listOfIncompleteFiles = new ArrayList<String>();
 		listOfChunks = new ArrayList<String>();
+		listOfFilesToGet = new Hashtable<String, TorrentMetaData>();
 		
 		//List of ip address to port number mappings
 		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("localhost", 7000);
@@ -113,5 +117,15 @@ public class PropertiesOfPeer {
 	public static void UpdateThisPeerMetaDataTable(Hashtable<String, TorrentMetaData> listOfFilesAndMetaData){
 		//This is replacing all existing entries and adding new ones
 		currentPeerStatus.allMetaData.putAll(listOfFilesAndMetaData);
+		
+		Iterator<Map.Entry<String, TorrentMetaData>> otherPeersMetaData = listOfFilesAndMetaData.entrySet().iterator();
+
+		while (otherPeersMetaData.hasNext()) {
+			Map.Entry<String, TorrentMetaData> entry = otherPeersMetaData.next();
+
+			if (!currentPeerStatus.allMetaData.containsKey(entry.getKey())){
+				listOfFilesToGet.put(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 }
