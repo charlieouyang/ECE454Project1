@@ -5,6 +5,12 @@ import java.util.Collections;
 
 public class DirectoryHelper {
 	
+	public static boolean createAllDirectories(String peerName) {
+		return createDirectory(peerName) &&
+				createCompletedDirectory(peerName) &&
+				createChunkDirectory(peerName);
+	}
+	
 	public static boolean createDirectory(String name)
 	{
 		File dir = new File(name);
