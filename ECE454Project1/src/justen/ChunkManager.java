@@ -81,6 +81,7 @@ public final class ChunkManager {
 			bytesRead = raf.read(value, 0, Constants.CHUNK_SIZE);
 			if (bytesRead != Constants.CHUNK_SIZE) {
 				// underflow
+				// copy to new array with appropriate size
 				byte[] temp = value;
 				value = new byte[bytesRead];
 				for (int i = 0; i < bytesRead; i++) {

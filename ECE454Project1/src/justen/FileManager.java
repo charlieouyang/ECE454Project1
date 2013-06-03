@@ -202,7 +202,6 @@ public class FileManager {
 	}
 
 	public byte[] getChunkFromIncompleteFile(String fileName, int chunkNum) {
-
 		return ChunkManager.getChunk(chunkPath + "\\" + fileName + "\\" + fileName + "_chunk_" + chunkNum);
 	}
 
