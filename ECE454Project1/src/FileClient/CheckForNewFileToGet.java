@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import Data.PropertiesOfPeer;
 
+import justen.DirectoryHelper;
 import justen.TorrentMetaData;
 
 public class CheckForNewFileToGet extends Thread {
@@ -46,6 +47,9 @@ public class CheckForNewFileToGet extends Thread {
 					Iterator<Map.Entry<String, TorrentMetaData>> fileNameAndMetaDataToGetList = inProcessOfGettingChunks.entrySet().iterator();
 					while (fileNameAndMetaDataToGetList.hasNext()) {
 						Map.Entry<String, TorrentMetaData> entry = fileNameAndMetaDataToGetList.next();
+						
+						DirectoryHelper.createDirectory(PropertiesOfPeer.PeerName, entry.getKey());
+						
 						GetFileThread getFileThread = new GetFileThread(entry.getKey(), entry.getValue());
 						getFileThread.start();
 
