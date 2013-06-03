@@ -183,15 +183,20 @@ public class FileManager {
 				data = getChunkData(tFile, i);
 				fos.write(data);
 			}
+			
 		} catch (Exception e) {
 			System.out.println("Fucked up rebuilding the file");
 		} finally {
-			if (fos != null)
+			if (fos != null) {
 				try {
 					fos.close();
+					
+					// now that file is completely built, must delete the chunks\fileName directory
+					DirectoryHelper.deleteFolder(new File(chunkPath + "\\" + tFile.getFileName()));
 				} catch (IOException e) {
 					// wtf
 				}
+			}
 		}
 	}
 

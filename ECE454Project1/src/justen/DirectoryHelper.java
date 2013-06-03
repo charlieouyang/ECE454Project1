@@ -46,7 +46,7 @@ public class DirectoryHelper {
 	/*
 	 * Recursively deletes all files in directory
 	 * */
-	private static void deleteFolder(File folder)
+	public static void deleteFolder(File folder)
 	{
 		File[] files = folder.listFiles();
 	    if(files!=null) { //some JVMs return null for empty dirs
