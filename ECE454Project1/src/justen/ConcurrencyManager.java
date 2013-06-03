@@ -64,7 +64,7 @@ public class ConcurrencyManager {
 	
 	public synchronized byte[] getChunkData(String fileName, int chunkNum) {
 		if (fileManager.hasCompleteFile(fileName))
-			return fileManager.getChunk(fileName);
+			return fileManager.getChunk(fileName, chunkNum);
 		else if (fileManager.hasChunk(fileName, chunkNum))
 			return fileManager.getChunkFromIncompleteFile(fileName, chunkNum);			
 		else

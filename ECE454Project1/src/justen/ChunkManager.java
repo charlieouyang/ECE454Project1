@@ -68,6 +68,9 @@ public final class ChunkManager {
 	public static byte[] getChunkFromOffset(String filePath, int offset)
 	{
 		RandomAccessFile raf = null;
+		File file = new File(filePath);
+		if (!file.canRead())
+			file.setReadable(true);
 		byte[] value = new byte[Constants.CHUNK_SIZE];
 		int bytesRead = 0;
 		try
@@ -75,8 +78,15 @@ public final class ChunkManager {
 			raf = new RandomAccessFile(filePath, "r");
 			
 			raf.seek(offset);
-			bytesRead = raf.read(value, offset, Constants.CHUNK_SIZE);
-			
+			bytesRead = raf.read(value, 0, Constants.CHUNK_SIZE);
+			if (bytesRead != Constants.CHUNK_SIZE) {
+				// underflow
+				byte[] temp = value;
+				value = new byte[bytesRead];
+				for (int i = 0; i < bytesRead; i++) {
+					value[i] = temp[i];
+				}
+			}
 			if (bytesRead == -1)
 				throw new Exception();
 		}

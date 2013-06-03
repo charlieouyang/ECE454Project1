@@ -173,6 +173,7 @@ public class FileManager {
 		// All chunks are available, write the complete file to the completed
 		// directory
 		File seedingFile = new File(completedPath, tFile.getFileName());
+		seedingFile.setWritable(true);
 		byte[] data;
 		fos = null;
 
@@ -194,13 +195,15 @@ public class FileManager {
 		}
 	}
 
-	public byte[] getChunk(String fileName) {
-		return ChunkManager.getChunk(fileName);
+	// from completed directory
+	public byte[] getChunk(String fileName, int chunkNum) {
+		return ChunkManager.getChunkFromOffset(completedPath + "\\" + fileName, chunkNum
+				* Constants.CHUNK_SIZE);
 	}
 
 	public byte[] getChunkFromIncompleteFile(String fileName, int chunkNum) {
-		return ChunkManager.getChunkFromOffset(fileName, chunkNum
-				* Constants.CHUNK_SIZE);
+
+		return ChunkManager.getChunk(chunkPath + "\\" + fileName + "\\" + fileName + "_chunk_" + chunkNum);
 	}
 
 	/**
@@ -214,7 +217,7 @@ public class FileManager {
 		if (chunkNum >= tFile.getNumberOfChunks())
 			return null;
 
-		File chunkFile = new File(chunkPath, tFile.getChunkName(chunkNum));
+		File chunkFile = new File(chunkPath + "\\" +tFile.getFileName(), tFile.getChunkName(chunkNum));
 		FileInputStream fis = null;
 		byte[] chunkData;
 		int bytesRead;
