@@ -143,7 +143,7 @@ public class FileManager {
 		if (chunkNum >= tFile.getNumberOfChunks())
 			return; // error
 
-		File file = new File(chunkPath, tFile.getChunkName(chunkNum));
+		File file = new File(chunkPath + "\\" + tFile.getFileName(), tFile.getChunkName(chunkNum));
 		FileOutputStream fos = null;
 
 		try {
