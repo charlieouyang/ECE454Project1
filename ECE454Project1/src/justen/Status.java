@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import Data.PropertiesOfPeer;
 import Main.Peer;
@@ -22,28 +23,76 @@ public class Status implements Serializable{
 	public Hashtable<String, Integer> allCompletedFiles; // <filename, #chunks>
 	public Hashtable<String, TorrentMetaData> allMetaData;
 	
-	public Hashtable<String, Integer> fileNameIndexMap;
+	public Hashtable<String, Integer[]> fileNameChunkReplicationMap;
 	
 	
 	public Status(ConcurrencyManager cm) {
 		super();
 		HashSet<TorrentFile> completedFiles = cm.getAllFiles();
 		allFiles = completedFiles;
-		numFiles = completedFiles.size();
+//		numFiles = completedFiles.size();
 		allCompletedFiles = new Hashtable<String, Integer>();
-		fileNameIndexMap = new Hashtable<String,Integer>();
 		allMetaData = cm.getAllMetaData(); 
+		fileNameChunkReplicationMap = new Hashtable<String, Integer[]>();
 		
-		Hashtable<String, Status> temp = PropertiesOfPeer.listOfOtherPeersStatus;
+		Hashtable<String, Status> otherPeerStatusMap = PropertiesOfPeer.listOfOtherPeersStatus;
 		
 		for (TorrentFile t : completedFiles) {
 			allCompletedFiles.put(t.getFileName(), (int)t.getNumberOfChunks());
 		}
 		
-		allChunks = cm.getIncompleteChunks();
+		allChunks = cm.getIncompleteChunks(); // hashtable
+		
 		
 		if (numFiles == 0)
 			return;
+		
+		TorrentMetaData[] filesMetaData = allMetaData.values().toArray(new TorrentMetaData[allMetaData.size()]);
+		Set<String> chunkFiles = allChunks.keySet();
+		for (int i =0; i < filesMetaData.length; i++) {
+			Integer[] chunkReplicationArray = new Integer[filesMetaData[i].getNumberOfChunks()];
+			
+			if (allFiles.contains(filesMetaData[i].getFileName())) { // we have the seeder
+				// increase all by 1
+				for (int j = 0; j < chunkReplicationArray.length; j++) {
+					chunkReplicationArray[j]++;
+					
+					// now go through all other peers and find if chunk exists.
+					for (Entry<String, Status> e : otherPeerStatusMap.entrySet()) {
+						if (e.getValue().containsChunk(filesMetaData[i].getChunkName(j))) {
+							chunkReplicationArray[j]++;
+						}
+					}
+				}
+				
+			} else if (chunkFiles.contains(filesMetaData[i].getFileName())) { // we are leeching
+				// only increase the chunks we have
+				for (int j = 0; j < chunkReplicationArray.length; j++) {
+					if (allChunks.contains(filesMetaData[i].getChunkName(j))) {
+						chunkReplicationArray[j]++;
+					}
+					
+					// now go through all other peers and find if chunk exists.
+					for (Entry<String, Status> e : otherPeerStatusMap.entrySet()) {
+						if (e.getValue().containsChunk(filesMetaData[i].getChunkName(j))) {
+							chunkReplicationArray[j]++;
+						}
+					}
+				}
+			} else { // we have no chunks yet, but have knowledge of the file
+				// go through all other peers and find if chunk exists
+				for (int j = 0; j < chunkReplicationArray.length; j++) {
+					for (Entry<String, Status> e : otherPeerStatusMap.entrySet()) {
+						if (e.getValue().containsChunk(filesMetaData[i].getChunkName(j))) {
+							chunkReplicationArray[j]++;
+						}
+					}
+				}
+			}
+			fileNameChunkReplicationMap.put(filesMetaData[i].getFileName(), chunkReplicationArray);
+			
+			
+		}
 		
 		local = new float[numFiles];
 		system = new float[numFiles];
@@ -55,7 +104,6 @@ public class Status implements Serializable{
 		for (int i = 0; i < numFiles; i++) {
 			TorrentFile tFile = allFilesArray[i];
 			
-			fileNameIndexMap.put(tFile.getFileName(), i);
 			
 			int numberOfChunks = (int)tFile.getNumberOfChunks();
 			totalNumberOfChunks += numberOfChunks;
@@ -77,7 +125,7 @@ public class Status implements Serializable{
 						systemNumChunks++;
 						replicatedChunks[k]++;
 					}
-					for (Entry<String, Status> e : temp.entrySet()) {
+					for (Entry<String, Status> e : otherPeerStatusMap.entrySet()) {
 						if (e.getValue().containsChunk(tFile.getChunkName(k))) {
 							systemNumChunks++;
 							replicatedChunks[k]++;
