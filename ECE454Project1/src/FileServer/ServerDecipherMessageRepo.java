@@ -48,6 +48,8 @@ public class ServerDecipherMessageRepo {
 			
 			returnMessage = new Message(PropertiesOfPeer.ipAddress, PropertiesOfPeer.portNumber, MESSAGE_TYPE.CHUNK_RESPONSE, chunkResponse);
 		}
+		
+		//Modify chunk replication level
 		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_RESPONSE)){
 			
 			System.out.println("********** RECEVIED CHUNK RESPONSE **********");
