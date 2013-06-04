@@ -16,6 +16,9 @@ public class Peer {
 		DirectoryHelper.createAllDirectories(properties.PeerName);
 		//properties.peerConcurrencyManager.insertFile("C:\\Users\\Charlie\\Desktop\\CharlieResume.pdf");
 		
+		//We need to update current peer status after some period of time or chunk transfer
+		//Also need to broadcast that status
+		
 		//Main execution point
 		
 		//Insert() - This peer has a "temp" list of the files that it has. Insert() will

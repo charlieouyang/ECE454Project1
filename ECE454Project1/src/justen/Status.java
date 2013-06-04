@@ -213,4 +213,8 @@ public class Status implements Serializable{
 			return -1;
 		return weightedLeastReplication[fileNumber];
 	}
+	
+	public Hashtable<String, Integer[]> getFileNameChunkReplicationMap(){
+		return fileNameChunkReplicationMap;
+	}
 }

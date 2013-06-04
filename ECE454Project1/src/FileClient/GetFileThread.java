@@ -5,16 +5,19 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
+import justen.Status;
 import justen.TorrentMetaData;
 import Data.PropertiesOfPeer;
 
 public class GetFileThread extends Thread {
 	String fileName;
 	TorrentMetaData fileMettaData;
+	Status peerStatus;
 	
 	public GetFileThread(String fileName, TorrentMetaData fileMettaData) {
 		this.fileName = fileName;
 		this.fileMettaData = fileMettaData;
+		this.peerStatus = PropertiesOfPeer.getCurrentPeerStatus();
 	}
 
 	@Override
@@ -25,7 +28,8 @@ public class GetFileThread extends Thread {
 			int numberOfChunks = fileMettaData.getNumberOfChunks();
 			
 			for (int i = 0; i < numberOfChunks; i++) {
-				chunkToHostMapping.put(i, "localhost.7000");
+				//Get the chunk# to host mapping for chunk requests
+				chunkToHostMapping.put(i, getChunkToHostMapping(fileName, i));
 			}
 			
 			//Start sending out chunk request
@@ -41,5 +45,14 @@ public class GetFileThread extends Thread {
 			System.err.println("Screwed up on check for new files to get");
 			e.printStackTrace();
 		}
+	}
+	
+	public String getChunkToHostMapping(String fileName, int chunkNumber){
+		String hostName = "";
+		Hashtable<String, Integer[]> fileNameChunkReplicationMap = peerStatus.fileNameChunkReplicationMap;
+		
+		
+		
+		return hostName;
 	}
 }
