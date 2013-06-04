@@ -35,10 +35,12 @@ public class ConcurrencyManager {
 	}
 	
 	public synchronized HashSet<TorrentFile> getAllFiles() {
+		refreshConcurrencyManager();
 		return allFiles;
 	}
 	
 	public synchronized Hashtable<String, String> getIncompleteChunks() {
+		refreshConcurrencyManager();
 		return allIncompleteChunks;
 	}
 	
