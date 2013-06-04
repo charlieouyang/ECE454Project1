@@ -59,6 +59,18 @@ public class FileManager {
 		return false;
 	}
 
+	public HashSet<String> getWorkingFiles() {
+		File dir = new File(chunkPath);
+		HashSet<String> list = new HashSet<String>();
+		
+		File[] subDirs = dir.listFiles();
+		for (File f : subDirs) {
+			if (!f.isHidden() && f.isDirectory())
+				list.add(f.getName());
+		}
+		return list;
+	}
+	
 	public Hashtable<String, String> getAllLocalChunks() {
 		File dir = new File(chunkPath);
 		
