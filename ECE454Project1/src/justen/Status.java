@@ -90,68 +90,66 @@ public class Status implements Serializable{
 				}
 			}
 			fileNameChunkReplicationMap.put(filesMetaData[i].getFileName(), chunkReplicationArray);
-			
-			
 		}
 		
-		local = new float[numFiles];
-		system = new float[numFiles];
-		leastReplication = new int[numFiles];
-		weightedLeastReplication = new float[numFiles];
-		int totalNumberOfChunks = 0;
-		
-		TorrentFile[] allFilesArray = completedFiles.toArray(new TorrentFile[completedFiles.size()]);
-		for (int i = 0; i < numFiles; i++) {
-			TorrentFile tFile = allFilesArray[i];
-			
-			
-			int numberOfChunks = (int)tFile.getNumberOfChunks();
-			totalNumberOfChunks += numberOfChunks;
-
-			int localNumChunks = 0, systemNumChunks = 0;
-			int[] replicatedChunks = new int[numberOfChunks];
-			
-			//Added if statement to skip loop if there's no chunks... 
-			//GOTTA CHECK IF THIS IS CORRECT
-			if (cm.getIncompleteChunks() != null) {
-				for (int k = 0; k < numberOfChunks; k++) {
-					
-					Hashtable tempHash = cm.getIncompleteChunks();
-					String tempName = tFile.getChunkName(k);
-					
-					if (cm.getIncompleteChunks()
-							.contains(tFile.getChunkName(k))) {
-						localNumChunks++;
-						systemNumChunks++;
-						replicatedChunks[k]++;
-					}
-					for (Entry<String, Status> e : otherPeerStatusMap.entrySet()) {
-						if (e.getValue().containsChunk(tFile.getChunkName(k))) {
-							systemNumChunks++;
-							replicatedChunks[k]++;
-						}
-					}
-					// if peer has this chunk
-					// systemNumChunks++
-					// replicatedChunks[k]++
-					// iterate through the map and check
-				}
-			}
-			
-			local[i] = (float) localNumChunks / numberOfChunks;
-			system[i] = (float) systemNumChunks / numberOfChunks;
-			leastReplication[i] = replicatedChunks[0];
-			
-			for (int j = 1; j < replicatedChunks.length; j++) {
-				if (leastReplication[i] > replicatedChunks[j])
-					leastReplication[i] = replicatedChunks[j];
-			}			
-		}
-		
-		for (int a = 0; a < numFiles; a++) {
-			TorrentFile tFile = allFilesArray[a];
-			weightedLeastReplication[a] = (float) totalNumberOfChunks / tFile.getNumberOfChunks();
-		}
+//		local = new float[numFiles];
+//		system = new float[numFiles];
+//		leastReplication = new int[numFiles];
+//		weightedLeastReplication = new float[numFiles];
+//		int totalNumberOfChunks = 0;
+//		
+//		TorrentFile[] allFilesArray = completedFiles.toArray(new TorrentFile[completedFiles.size()]);
+//		for (int i = 0; i < numFiles; i++) {
+//			TorrentFile tFile = allFilesArray[i];
+//			
+//			
+//			int numberOfChunks = (int)tFile.getNumberOfChunks();
+//			totalNumberOfChunks += numberOfChunks;
+//
+//			int localNumChunks = 0, systemNumChunks = 0;
+//			int[] replicatedChunks = new int[numberOfChunks];
+//			
+//			//Added if statement to skip loop if there's no chunks... 
+//			//GOTTA CHECK IF THIS IS CORRECT
+//			if (cm.getIncompleteChunks() != null) {
+//				for (int k = 0; k < numberOfChunks; k++) {
+//					
+//					Hashtable tempHash = cm.getIncompleteChunks();
+//					String tempName = tFile.getChunkName(k);
+//					
+//					if (cm.getIncompleteChunks()
+//							.contains(tFile.getChunkName(k))) {
+//						localNumChunks++;
+//						systemNumChunks++;
+//						replicatedChunks[k]++;
+//					}
+//					for (Entry<String, Status> e : otherPeerStatusMap.entrySet()) {
+//						if (e.getValue().containsChunk(tFile.getChunkName(k))) {
+//							systemNumChunks++;
+//							replicatedChunks[k]++;
+//						}
+//					}
+//					// if peer has this chunk
+//					// systemNumChunks++
+//					// replicatedChunks[k]++
+//					// iterate through the map and check
+//				}
+//			}
+//			
+//			local[i] = (float) localNumChunks / numberOfChunks;
+//			system[i] = (float) systemNumChunks / numberOfChunks;
+//			leastReplication[i] = replicatedChunks[0];
+//			
+//			for (int j = 1; j < replicatedChunks.length; j++) {
+//				if (leastReplication[i] > replicatedChunks[j])
+//					leastReplication[i] = replicatedChunks[j];
+//			}			
+//		}
+//		
+//		for (int a = 0; a < numFiles; a++) {
+//			TorrentFile tFile = allFilesArray[a];
+//			weightedLeastReplication[a] = (float) totalNumberOfChunks / tFile.getNumberOfChunks();
+//		}
 	}
 	
 	//justen_chunk_1
