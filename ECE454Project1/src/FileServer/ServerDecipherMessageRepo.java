@@ -33,6 +33,7 @@ public class ServerDecipherMessageRepo {
 		}
 		
 		//Chunk send and receive messages
+		//Modify chunk replication level
 		else if (type.equals(Message.MESSAGE_TYPE.CHUNK_REQUEST)){
 			
 			System.out.println("********** RECEVIED CHUNK REQUEST **********");
