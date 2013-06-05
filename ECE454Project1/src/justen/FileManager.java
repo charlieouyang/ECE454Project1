@@ -191,8 +191,6 @@ public class FileManager {
 				try {
 					fos.close();
 					
-					// now that file is completely built, must delete the chunks\fileName directory
-					DirectoryHelper.deleteFolder(new File(chunkPath + "\\" + tFile.getFileName()));
 				} catch (IOException e) {
 					// wtf
 				}

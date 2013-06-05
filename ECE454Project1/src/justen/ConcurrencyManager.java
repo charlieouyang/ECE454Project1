@@ -52,6 +52,10 @@ public class ConcurrencyManager {
 		return allLocalChunkMap;
 	}
 	
+	public synchronized String getChunkPath() {
+		return fileManager.chunkPath;
+	}
+	
 	public synchronized int insertFile(String fileName) {
 		
 		File file = new File(fileName);

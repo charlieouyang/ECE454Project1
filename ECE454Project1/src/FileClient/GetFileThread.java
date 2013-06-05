@@ -1,5 +1,6 @@
 package FileClient;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -46,13 +47,17 @@ public class GetFileThread extends Thread {
 			int j = 0;
 			ArrayList<Integer> previousIndexes = new ArrayList<Integer>();
 			while (true) {
-
-				if (icrm.isFileComplete())
-					break;
 				
 				String aggList = concurManager.getAggregateChunks(fileName);
 				ArrayList<Integer> list = HelperClass.getArrayList(aggList);
 				icrm.updateReceivedChunks(list);
+
+				if (icrm.isFileComplete()) {
+
+					// now that file is completely built, must delete the chunks\fileName directory
+					DirectoryHelper.deleteFolder(new File(concurManager.getChunkPath() + "\\" + fileName));
+					break;
+				}
 				
 				this.listOfOtherPeersStatus = PropertiesOfPeer.listOfOtherPeersStatus;
 				for (Entry<String, Status> e : listOfOtherPeersStatus.entrySet()) {
