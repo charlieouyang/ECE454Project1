@@ -61,7 +61,7 @@ public class FileManager {
 	
 	public Hashtable<String, String> getAllLocalChunks() {
 		File dir = new File(chunkPath);
-		
+//		System.out.println("Getting all local chunks");
 		File[] subDirs = dir.listFiles();
 		if (subDirs == null) 
 			return null; // no chunks

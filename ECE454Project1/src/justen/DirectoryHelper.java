@@ -109,6 +109,9 @@ public class DirectoryHelper {
 				startValueRange = value;
 				starting = false;
 				shouldBeValue = value + 1;
+				if (lastValueTracker == listOfChunkNumbers.size()){
+					lastEntry = true;
+				}
 			}
 			else if (value != shouldBeValue){
 				hiccup = true;

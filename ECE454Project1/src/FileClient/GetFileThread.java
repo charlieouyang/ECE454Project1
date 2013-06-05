@@ -44,6 +44,7 @@ public class GetFileThread extends Thread {
 			//Tell Pinto chunk request sent right after
 			
 			int j = 0;
+			ArrayList<Integer> previousIndexes = new ArrayList<Integer>();
 			while (true) {
 				
 				String aggList = concurManager.getAggregateChunks(fileName);
@@ -62,7 +63,6 @@ public class GetFileThread extends Thread {
 				for (int i = 0; i < fileReplicationArray.length; i++)
 					fileReplicationArray[i] = 0;
 				
-				ArrayList<Integer> previousIndexes = new ArrayList<Integer>();
 				
 				int minValue = Integer.MAX_VALUE;
 				int minIndex = 0;
