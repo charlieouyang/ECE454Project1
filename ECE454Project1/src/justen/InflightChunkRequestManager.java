@@ -31,6 +31,9 @@ public class InflightChunkRequestManager {
 	}
 	
 	public void updateReceivedChunks(ArrayList<Integer> chunks) {
+		if (chunks == null)
+			return;
+		
 		for (int i = 0; i < chunks.size(); i++) {
 			Integer temp = chunks.get(i);
 			if (!receivedChunks[temp]) {

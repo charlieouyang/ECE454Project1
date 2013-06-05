@@ -34,6 +34,10 @@ public class ConcurrencyManager {
 		allMetaData.put(key, value);
 	}
 	
+	public synchronized String getAggregateChunks(String fileName) {
+		return fileManager.getAggregateChunks(fileName);
+	}
+	
 	public synchronized void mergeMetaData(Hashtable<String, TorrentMetaData> data) {
 		allMetaData.putAll(data);
 	}

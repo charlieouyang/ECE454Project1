@@ -247,4 +247,8 @@ public class FileManager {
 		}
 		return null;
 	}
+	
+	public String getAggregateChunks(String fileName) {
+		return DirectoryHelper.getAggregateChunkList(chunkPath + "\\" + fileName);
+	}
 }

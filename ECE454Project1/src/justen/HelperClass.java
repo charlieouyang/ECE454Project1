@@ -21,6 +21,8 @@ public class HelperClass {
 	}
 	
 	public static ArrayList<Integer> getArrayList(String aggregate) {
+		if (aggregate.equals(""))
+			return null;
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		String[] tokens = aggregate.split(",");
 		

@@ -74,7 +74,7 @@ public class DirectoryHelper {
 				
 				String fileName = listOfFiles[i].getName();
 				int lastUnderScore = fileName.lastIndexOf("_");
-				int endOfString = fileName.lastIndexOf(".");
+				int endOfString = fileName.length();
 				
 				String chunkIndexString = fileName.substring(lastUnderScore + 1, endOfString);
 				int chunkIndex = Integer.parseInt(chunkIndexString);
