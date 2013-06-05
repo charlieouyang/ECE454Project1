@@ -46,13 +46,13 @@ public class GetFileThread extends Thread {
 			int j = 0;
 			ArrayList<Integer> previousIndexes = new ArrayList<Integer>();
 			while (true) {
+
+				if (icrm.isFileComplete())
+					break;
 				
 				String aggList = concurManager.getAggregateChunks(fileName);
 				ArrayList<Integer> list = HelperClass.getArrayList(aggList);
 				icrm.updateReceivedChunks(list);
-
-				if (icrm.isFileComplete())
-					break;
 				
 				this.listOfOtherPeersStatus = PropertiesOfPeer.listOfOtherPeersStatus;
 				for (Entry<String, Status> e : listOfOtherPeersStatus.entrySet()) {
