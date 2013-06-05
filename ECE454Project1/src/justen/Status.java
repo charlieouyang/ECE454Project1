@@ -53,6 +53,9 @@ public class Status implements Serializable{
 		for (int i =0; i < filesMetaData.length; i++) {
 			Integer[] chunkReplicationArray = new Integer[filesMetaData[i].getNumberOfChunks()];
 			
+			for (int a = 0; a < chunkReplicationArray.length; a++) 
+				chunkReplicationArray[a] = 0;
+			
 			boolean containedInAllFiles = false;
 			for (TorrentFile t : allFiles) {
 				if (t.getFileName().equals(filesMetaData[i].getFileName())) {
