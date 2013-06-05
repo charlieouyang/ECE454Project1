@@ -12,12 +12,8 @@ import justen.DirectoryHelper;
 import justen.TorrentMetaData;
 
 public class CheckForNewFileToGet extends Thread {
-	public static ArrayList<String> fileListAlreadyGetting;
-	public static Hashtable<String, TorrentMetaData> inProcessOfGettingChunks;
 	
 	public CheckForNewFileToGet() {
-		fileListAlreadyGetting = new ArrayList<String>();
-		inProcessOfGettingChunks = new Hashtable<String, TorrentMetaData>();
 	}
 
 	@Override
@@ -33,18 +29,18 @@ public class CheckForNewFileToGet extends Thread {
 					while (otherPeersMetaData.hasNext()) {
 						Map.Entry<String, TorrentMetaData> entry = otherPeersMetaData.next();
 
-						if (!fileListAlreadyGetting.contains(entry.getKey())) {
+						if (!PropertiesOfPeer.fileListAlreadyGetting.contains(entry.getKey())) {
 							
 							String tempStr = entry.getKey();
 							TorrentMetaData tempData = entry.getValue();
 							
-							inProcessOfGettingChunks.put(entry.getKey(), entry.getValue());
-							fileListAlreadyGetting.add(entry.getKey());
+							PropertiesOfPeer.inProcessOfGettingChunks.put(entry.getKey(), entry.getValue());
+							PropertiesOfPeer.fileListAlreadyGetting.add(entry.getKey());
 						}
 					}
 
 					// Start getting the file
-					Iterator<Map.Entry<String, TorrentMetaData>> fileNameAndMetaDataToGetList = inProcessOfGettingChunks.entrySet().iterator();
+					Iterator<Map.Entry<String, TorrentMetaData>> fileNameAndMetaDataToGetList = PropertiesOfPeer.inProcessOfGettingChunks.entrySet().iterator();
 					while (fileNameAndMetaDataToGetList.hasNext()) {
 						Map.Entry<String, TorrentMetaData> entry = fileNameAndMetaDataToGetList.next();
 						

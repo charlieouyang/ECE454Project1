@@ -29,6 +29,8 @@ public class PropertiesOfPeer {
 	
 	//Chunk sending managment and stuff
 	public static Hashtable<String, TorrentMetaData> listOfFilesToGet;
+	public static ArrayList<String> fileListAlreadyGetting;
+	public static Hashtable<String, TorrentMetaData> inProcessOfGettingChunks;
 	
 	public PropertiesOfPeer(){
 		//Stuff to keep track of files/chunks and other peers
@@ -39,7 +41,9 @@ public class PropertiesOfPeer {
 		listOfCompleteFiles = new ArrayList<String>();
 		listOfIncompleteFiles = new ArrayList<String>();
 		listOfChunks = new ArrayList<String>();
-		listOfFilesToGet = new Hashtable<String, TorrentMetaData>();
+		listOfFilesToGet = new Hashtable<String, TorrentMetaData>();		
+		fileListAlreadyGetting = new ArrayList<String>();
+		inProcessOfGettingChunks = new Hashtable<String, TorrentMetaData>();
 		
 		//List of ip address to port number mappings
 		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("localhost", 7000);
