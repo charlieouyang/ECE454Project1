@@ -53,7 +53,14 @@ public class Status implements Serializable{
 		for (int i =0; i < filesMetaData.length; i++) {
 			Integer[] chunkReplicationArray = new Integer[filesMetaData[i].getNumberOfChunks()];
 			
-			if (allFiles.contains(filesMetaData[i].getFileName())) { // we have the seeder
+			boolean containedInAllFiles = false;
+			for (TorrentFile t : allFiles) {
+				if (t.getFileName().equals(filesMetaData[i].getFileName())) {
+					containedInAllFiles = true;
+					break;
+				}
+			}
+			if (containedInAllFiles) { // we have the seeder
 				// increase all by 1
 				for (int j = 0; j < chunkReplicationArray.length; j++) {
 					chunkReplicationArray[j]++;
