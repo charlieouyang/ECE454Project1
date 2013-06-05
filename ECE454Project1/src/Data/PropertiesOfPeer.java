@@ -116,23 +116,24 @@ public class PropertiesOfPeer {
 	
 	public static void UpdateThisPeerMetaDataTable(Hashtable<String, TorrentMetaData> listOfFilesAndMetaData){
 		//This is replacing all existing entries and adding new ones
+		
 		if(currentPeerStatus.allMetaData == null){
 			System.out.println("Current size of allMetaDataForThisPeer : " + currentPeerStatus.allMetaData.size());
 		}
 		else{
 			System.out.println("It's not null");
 		}
-		
+
 		Iterator<Map.Entry<String, TorrentMetaData>> otherPeersMetaData = listOfFilesAndMetaData.entrySet().iterator();
 
 		while (otherPeersMetaData.hasNext()) {
 			Map.Entry<String, TorrentMetaData> entry = otherPeersMetaData.next();
-
-			if (!currentPeerStatus.allMetaData.containsKey(entry.getKey())){
+			if (!currentPeerStatus.allMetaData.containsKey(entry.getKey()))	{
 				listOfFilesToGet.put(entry.getKey(), entry.getValue());
 			}
 		}
-		
+
+		peerConcurrencyManager.mergeMetaData(listOfFilesAndMetaData);
 		currentPeerStatus.allMetaData.putAll(listOfFilesAndMetaData);
 	}
 }
