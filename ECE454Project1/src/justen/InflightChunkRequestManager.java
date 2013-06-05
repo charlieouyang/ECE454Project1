@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class InflightChunkRequestManager {
 	private boolean[] inflightManager;
 	private boolean[] receivedChunks;
-	private boolean haveAllChunks = false;
 	private int numChunks;
 	private int count;
 	
