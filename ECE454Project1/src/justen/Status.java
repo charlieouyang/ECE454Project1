@@ -34,6 +34,7 @@ public class Status implements Serializable{
 		allCompletedFiles = new Hashtable<String, Integer>();
 		allMetaData = cm.getAllMetaData(); 
 		fileNameChunkReplicationMap = new Hashtable<String, Integer[]>();
+		numFiles = allMetaData.size();
 		
 		Hashtable<String, Status> otherPeerStatusMap = PropertiesOfPeer.listOfOtherPeersStatus;
 		
