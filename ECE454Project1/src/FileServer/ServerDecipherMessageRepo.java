@@ -7,6 +7,8 @@ import Data.Message.MESSAGE_TYPE;
 import Data.PropertiesOfPeer;
 
 public class ServerDecipherMessageRepo {
+	private static int readCount = 0;
+	private static int writeCount = 0;
 	
 	public static Message DecipherMessageAndReturn(Message incomingMessage) {
 		
@@ -24,7 +26,7 @@ public class ServerDecipherMessageRepo {
 		}
 		else if (type.equals(Message.MESSAGE_TYPE.ACK_PEER_DISCOVER)){
 			
-			System.out.println("********** RECEVIED ACK FROM OTHER PPER **********");
+			System.out.println("********** RECEIVED ACK FROM OTHER PPER **********");
 			
 			returnMessage = ReceiveBroadcastStatusFromPeer(incomingMessage);
 		}
@@ -64,8 +66,14 @@ public class ServerDecipherMessageRepo {
 			System.out.println("This is what I got... " + fileName + chunkNum);
 			
 			PropertiesOfPeer.peerConcurrencyManager.writeChunk(fileName, chunkNum, chunk);
+			readCount++;
+			if (readCount > 4) {
+				PropertiesOfPeer.updateCurrentPeerStatus();
+				PropertiesOfPeer.broadcastStatus();
+				readCount = 0;
+			}
+				
 			
-			returnMessage = ReceiveChunkResponse(incomingMessage);
 		}
 		
 		//File and chunk list management messages

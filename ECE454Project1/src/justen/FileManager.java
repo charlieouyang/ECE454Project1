@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Hashtable;
 
+import Data.PropertiesOfPeer;
+
 public class FileManager {
 
 	public String chunkPath;
@@ -196,6 +198,8 @@ public class FileManager {
 				}
 			}
 		}
+		PropertiesOfPeer.updateCurrentPeerStatus();
+		PropertiesOfPeer.broadcastStatus();
 	}
 
 	// from completed directory

@@ -22,6 +22,7 @@ public class GetFileThread extends Thread {
 	ConcurrencyManager concurManager;
 	InflightChunkRequestManager icrm;
 	Hashtable<String, Status> listOfOtherPeersStatus;
+	int writeCount;
 	
 	public GetFileThread(String fileName, TorrentMetaData fileMettaData) {
 		this.fileName = fileName;
@@ -30,6 +31,7 @@ public class GetFileThread extends Thread {
 		this.concurManager = PropertiesOfPeer.peerConcurrencyManager;
 		this.icrm = new InflightChunkRequestManager(fileMettaData.getNumberOfChunks());
 		this.listOfOtherPeersStatus = PropertiesOfPeer.listOfOtherPeersStatus;
+		writeCount = 0;
 	}
 
 	@Override
@@ -90,6 +92,12 @@ public class GetFileThread extends Thread {
 						//Send chunk request
 						RequestForChunk requestForChunkThread = new RequestForChunk(fileName, hostNameToGetChunk, minIndex);
 						requestForChunkThread.start();
+						writeCount++;
+						if (writeCount > 9) {
+							PropertiesOfPeer.updateCurrentPeerStatus();
+							PropertiesOfPeer.broadcastStatus();
+							writeCount = 0;
+						}
 					}
 				}
 				else{
