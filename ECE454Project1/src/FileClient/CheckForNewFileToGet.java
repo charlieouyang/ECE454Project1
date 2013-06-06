@@ -21,7 +21,7 @@ public class CheckForNewFileToGet extends Thread {
 	public void run() {
 		try {
 			// Keep checking for new files to get
-			while (true){
+			while (PropertiesOfPeer.peerUp){
 				
 				if (PropertiesOfPeer.listOfFilesToGet.size() > 0) {
 					// Add new file entry
