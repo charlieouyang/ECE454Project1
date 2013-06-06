@@ -14,8 +14,8 @@ import justen.TorrentMetaData;
 
 public class PropertiesOfPeer {
 	//Global variables for the file server and client to access
-	public static String ipAddress = "localhost";
-	public static int portNumber = 6000;			//Port number of this host
+	public static String ipAddress = "192.168.1.117";
+	public static int portNumber = 6969;			//Port number of this host
 	public static String PeerName = ipAddress + "." + portNumber;
 	public static ArrayList<Entry> ipAddrPortNumMappingAll = new ArrayList<Entry>();
 	public static ArrayList<Entry> ipAddrPortNumMappingAlive = new ArrayList<Entry>();
@@ -48,10 +48,12 @@ public class PropertiesOfPeer {
 		inProcessOfGettingChunks = new Hashtable<String, TorrentMetaData>();
 		
 		//List of ip address to port number mappings
-		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("localhost", 7000);
+		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("192.168.1.131", 6969);
 		ipAddrPortNumMappingAll.add(entry1);
 		//Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("localhost", 8000);
 		//ipAddrPortNumMappingAll.add(entry2);
+		//Map.Entry<String, Integer> entry3 = new MyEntry<String, Integer>("localhost", 9000);
+		//ipAddrPortNumMappingAll.add(entry3);
 	}
 	
 	//This will be used to update the peer's status info
