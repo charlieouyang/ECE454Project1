@@ -46,7 +46,7 @@ public class GetFileThread extends Thread {
 			
 			int j = 0;
 			ArrayList<Integer> previousIndexes = new ArrayList<Integer>();
-			while (true) {
+			while (PropertiesOfPeer.peerUp) {
 				
 				String aggList = concurManager.getAggregateChunks(fileName);
 				ArrayList<Integer> list = HelperClass.getArrayList(aggList);

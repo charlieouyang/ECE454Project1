@@ -16,12 +16,10 @@ public class FileServer extends Thread {
 	@Override
 	public void run() {
 		try {
-			boolean serverListening = true;
 			serverSocket = new ServerSocket(portNumber);
 
 			// make this false when you want to disconnect the host
-			while (serverListening) {
-				serverListening = PropertiesOfPeer.peerUp;
+			while (PropertiesOfPeer.peerUp) {
 				new FileServerThreadWorkDispatcher(serverSocket.accept()).start();
 			}
 
