@@ -2,7 +2,7 @@ package justen;
 
 public final class Constants {
 	// Global meta data
-	public final static int CHUNK_SIZE = 65536; // 64 kB
+	public final static int CHUNK_SIZE = 524288; // 512 kB
 	
 	// Error codes
 	public final static int ERR_OK = 0;

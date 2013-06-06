@@ -102,5 +102,7 @@ public class Peer {
 		//Add a protocol to handle a list of other host names (IPs) and list of port numbers
 		//Problem: Synchronization issues (server isn't up yet and client thread is already trying to connect)
 	}
+	
+	
 
 }

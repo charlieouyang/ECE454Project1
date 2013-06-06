@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import FileClient.ClientBroadcastStatus;
+
 import justen.ConcurrencyManager;
 import justen.Status;
 import justen.TorrentMetaData;
@@ -139,5 +141,10 @@ public class PropertiesOfPeer {
 
 		peerConcurrencyManager.mergeMetaData(listOfFilesAndMetaData);
 		currentPeerStatus.allMetaData.putAll(listOfFilesAndMetaData);
+	}
+	
+	public static void broadcastStatus(){
+		ClientBroadcastStatus statusBroadcastThread = new ClientBroadcastStatus(PropertiesOfPeer.ipAddrPortNumMappingAll);
+		statusBroadcastThread.start();
 	}
 }
