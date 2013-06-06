@@ -58,25 +58,25 @@ public class Peer {
 		UserInputThread userInputThread = new UserInputThread();
 		userInputThread.start();
 		
-		FileServer fileServerThread = new FileServer(PropertiesOfPeer.portNumber);
-		fileServerThread.start();
-		System.out.println("Running file server thread");
+		//FileServer fileServerThread = new FileServer(PropertiesOfPeer.portNumber);
+		//fileServerThread.start();
+		//System.out.println("Running file server thread");
 		
-		try {
-		    Thread.sleep(5000);			//Wait 5 seconds and get all of the peers up
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
-		}
+//		try {
+//		    Thread.sleep(5000);			//Wait 5 seconds and get all of the peers up
+//		} catch(InterruptedException ex) {
+//		    Thread.currentThread().interrupt();
+//		}
 
 		// 2) Invoke the File Client Thread		
-		ClientBroadcastUp fileClientThread = new ClientBroadcastUp(PropertiesOfPeer.ipAddrPortNumMappingAll);
-		fileClientThread.start();
-		
-		// Broadcast thread for status
-		ClientBroadcastStatus statusBroadcastThread = new ClientBroadcastStatus(PropertiesOfPeer.ipAddrPortNumMappingAll);
-		statusBroadcastThread.start();
-		
-		System.out.println("Running file client thread");
+//		ClientBroadcastUp fileClientThread = new ClientBroadcastUp(PropertiesOfPeer.ipAddrPortNumMappingAll);
+//		fileClientThread.start();
+//		
+//		// Broadcast thread for status
+//		ClientBroadcastStatus statusBroadcastThread = new ClientBroadcastStatus(PropertiesOfPeer.ipAddrPortNumMappingAll);
+//		statusBroadcastThread.start();
+////		
+//		System.out.println("Running file client thread");
 		
 		//Debugging stuff
 		//PrintOutIpPortAliveMapThread debugThread = new PrintOutIpPortAliveMapThread();
@@ -85,8 +85,8 @@ public class Peer {
 		//PrintOutStatusMappingsOfOtherPeers debugThread2 = new PrintOutStatusMappingsOfOtherPeers();
 		//debugThread2.start();
 		
-		CheckForNewFileToGet checkForNewFileThread = new CheckForNewFileToGet();
-		checkForNewFileThread.start();
+//		CheckForNewFileToGet checkForNewFileThread = new CheckForNewFileToGet();
+//		checkForNewFileThread.start();
 		
 		//Shutdown the server!
 		//CloseThisConnectionThread closePeerThread = new CloseThisConnectionThread();
