@@ -5,6 +5,8 @@ import java.util.Scanner;
 import justen.Status;
 
 import Data.PropertiesOfPeer;
+import FileClient.ClientBroadcastStatus;
+import FileClient.ClientBroadcastUp;
 import FileClient.CloseThisConnectionThread;
 
 public class UserInputThread extends Thread {
@@ -30,8 +32,15 @@ public class UserInputThread extends Thread {
 				}
 				else if (input.equals("join")){
 					if (!PropertiesOfPeer.peerUp) {
-						// Shutdown the server!
+						// Turn the server on
+						PropertiesOfPeer.peerUp = true;
+						// 2) Invoke the File Client Thread		
+						ClientBroadcastUp fileClientThread = new ClientBroadcastUp(PropertiesOfPeer.ipAddrPortNumMappingAll);
+						fileClientThread.start();
 						
+						// Broadcast thread for status
+						ClientBroadcastStatus statusBroadcastThread = new ClientBroadcastStatus(PropertiesOfPeer.ipAddrPortNumMappingAll);
+						statusBroadcastThread.start();						
 					} else {
 						System.out.println("System is already up");
 					}
