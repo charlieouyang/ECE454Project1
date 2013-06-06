@@ -18,7 +18,7 @@ public class UserInputThread extends Thread {
 		try {
 			while (true){
 				Scanner scanner = new Scanner (System.in);
-				System.out.print("Please enter operation");  
+				System.out.println("Please enter operation");  
 				String input = scanner.next(); 
 				
 				if (input.equals("leave")) {
