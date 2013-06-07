@@ -35,11 +35,11 @@ public class Status implements Serializable{
 		fileNameChunkReplicationMap = new Hashtable<String, Integer[]>();
 		allMetaData = cm.getAllMetaData();
 		numFiles = allMetaData.size();
+		Hashtable<String, Status> otherPeerStatusMap = PropertiesOfPeer.listOfOtherPeersStatus;
+		fileNameIndexMap = new Hashtable<String, Integer>();
 
 		if (numFiles == 0)
 			return;
-		Hashtable<String, Status> otherPeerStatusMap = PropertiesOfPeer.listOfOtherPeersStatus;
-		
 		for (TorrentFile t : completedFiles) {
 			allCompletedFiles.put(t.getFileName(), (int)t.getNumberOfChunks());
 		}
@@ -57,7 +57,7 @@ public class Status implements Serializable{
 		for (int i = 0; i < filesMetaData.length; i++) {
 			int localNumChunks = 0, systemNumChunks = 0;
 			int[] replicatedChunks = new int[filesMetaData[i].getNumberOfChunks()];
-			
+			fileNameIndexMap.put(filesMetaData[i].getFileName(), i);
 			Integer[] chunkReplicationArray = new Integer[filesMetaData[i].getNumberOfChunks()];
 			
 			for (int a = 0; a < chunkReplicationArray.length; a++) 
