@@ -70,7 +70,9 @@ public class UserInputThread extends Thread {
 						// Refresh and broadcast status
 					}
 				}
-				
+				else if (input.equals("query")) {
+					PropertiesOfPeer.printStatusInformation();
+				}
 			}
 		} catch (Exception e) {
 			System.err.println("User console error");

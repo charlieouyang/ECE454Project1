@@ -149,4 +149,19 @@ public class PropertiesOfPeer {
 		ClientBroadcastStatus statusBroadcastThread = new ClientBroadcastStatus(PropertiesOfPeer.ipAddrPortNumMappingAll);
 		statusBroadcastThread.start();
 	}
+	
+	public static void printStatusInformation() {
+		if (currentPeerStatus.fileNameIndexMap.size() == 0) {
+			System.out.println("No files on this peer.");
+			return;
+		}
+		System.out.println("Print Peer File Information..");
+		for (Entry<String, Integer> e : currentPeerStatus.fileNameIndexMap.entrySet()) {
+			System.out.println("Printing information for file: " + e.getKey());
+			System.out.println("Local Replication: " + currentPeerStatus.fractionPresentLocally(e.getValue()));
+			System.out.println("System Level Replication: " + currentPeerStatus.fractionPresent(e.getValue()));
+			System.out.println("Least Replicated Chunk: " + currentPeerStatus.minimumReplicationLevel(e.getValue()));
+			System.out.println("Average Weighted Replication Level: " + currentPeerStatus.averageReplicationLevel(e.getValue()));
+		}
+	}
 }
