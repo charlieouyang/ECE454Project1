@@ -31,7 +31,7 @@ public class FileServerThreadSendMessage extends Thread {
 
 			objectOutputStream.writeObject(returnMessage);
 
-			System.out.println("Closing the connection for sending gracefully");
+			//System.out.println("Closing the connection for sending gracefully");
 			
 			//objectOutputStream.close();
 			objectOutputStream.close();

@@ -22,7 +22,7 @@ public class ClientCloseThisBroadcastConnection extends Thread {
 	// Contact the peer and ask for a list of files
 	@Override
 	public void run() {
-		System.out.println("Connecting to: " + ipAddress + ", " + portNumber + " and inform of shutdown");
+		//System.out.println("Connecting to: " + ipAddress + ", " + portNumber + " and inform of shutdown");
 		try {
 			while (true) {
 				try {

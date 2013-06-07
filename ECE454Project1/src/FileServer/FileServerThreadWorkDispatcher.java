@@ -26,7 +26,7 @@ public class FileServerThreadWorkDispatcher extends Thread {
 
 			int tracker = 1;
 
-			System.out.println("Trying: " + tracker);
+			//System.out.println("Trying: " + tracker);
 
 			Message incomingMessage = (Message) objectInputStream.readObject();
 
@@ -50,7 +50,7 @@ public class FileServerThreadWorkDispatcher extends Thread {
 				// do nothing
 			}
 			
-			System.out.println("Closing the connection for receiving gracefully");
+			//System.out.println("Closing the connection for receiving gracefully");
 			
 			objectInputStream.close();
 			

@@ -126,10 +126,10 @@ public class PropertiesOfPeer {
 		//This is replacing all existing entries and adding new ones
 		
 		if(currentPeerStatus.allMetaData == null){
-			System.out.println("Current size of allMetaDataForThisPeer : " + currentPeerStatus.allMetaData.size());
+			//System.out.println("Current size of allMetaDataForThisPeer : " + currentPeerStatus.allMetaData.size());
 		}
 		else{
-			System.out.println("It's not null");
+			//System.out.println("It's not null");
 		}
 
 		Iterator<Map.Entry<String, TorrentMetaData>> otherPeersMetaData = listOfFilesAndMetaData.entrySet().iterator();
