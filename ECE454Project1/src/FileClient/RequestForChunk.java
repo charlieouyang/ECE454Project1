@@ -29,7 +29,7 @@ public class RequestForChunk extends Thread {
 	public void run() {
 
 		try {
-		    System.out.println("Sending chunk request " + chunkName + chunkNumber + " to " + destPortNumber);
+		    //System.out.println("Sending chunk request " + chunkName + chunkNumber + " to " + destPortNumber);
 			
 			Socket socket = new Socket(destIpAddress, destPortNumber);
 			//Send to other peer response
@@ -41,7 +41,7 @@ public class RequestForChunk extends Thread {
 			
 			objectOutputStream.writeObject(requestChunkMessage);
 
-			System.out.println("Closing the connection for sending gracefully");
+			//System.out.println("Closing the connection for sending gracefully");
 			
 			//objectOutputStream.close();
 			objectOutputStream.close();

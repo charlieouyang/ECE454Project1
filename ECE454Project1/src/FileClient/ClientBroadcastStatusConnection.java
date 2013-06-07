@@ -25,7 +25,7 @@ public class ClientBroadcastStatusConnection extends Thread {
 	// Contact the peer and ask for a list of files
 	@Override
 	public void run() {
-		System.out.println("Connecting to: " + ipAddress + ", " + portNumber);
+		//System.out.println("Connecting to: " + ipAddress + ", " + portNumber);
 		try {
 			boolean stillTryingToConnect = true;
 			
