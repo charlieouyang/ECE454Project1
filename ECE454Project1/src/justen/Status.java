@@ -142,7 +142,7 @@ public class Status implements Serializable{
 		int secondLastUnderScore = chunkName.lastIndexOf("_", chunkName.length() - 6);
 		fileName = chunkName.substring(0, secondLastUnderScore);
 		
-		if (allChunks.contains(chunkName))
+		if (allChunks != null && allChunks.contains(chunkName))
 			return true;
 		
 		for (TorrentFile t : allFiles) {
