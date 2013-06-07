@@ -5,9 +5,11 @@ import java.util.Scanner;
 import justen.Status;
 
 import Data.PropertiesOfPeer;
+import FileClient.CheckForNewFileToGet;
 import FileClient.ClientBroadcastStatus;
 import FileClient.ClientBroadcastUp;
 import FileClient.CloseThisConnectionThread;
+import FileServer.FileServer;
 
 public class UserInputThread extends Thread {
 	public UserInputThread() {
@@ -34,13 +36,22 @@ public class UserInputThread extends Thread {
 					if (!PropertiesOfPeer.peerUp) {
 						// Turn the server on
 						PropertiesOfPeer.peerUp = true;
+						
+						FileServer fileServerThread = new FileServer(PropertiesOfPeer.portNumber);
+						fileServerThread.start();
+						System.out.println("Running file server thread");
+						
 						// 2) Invoke the File Client Thread		
 						ClientBroadcastUp fileClientThread = new ClientBroadcastUp(PropertiesOfPeer.ipAddrPortNumMappingAll);
 						fileClientThread.start();
 						
 						// Broadcast thread for status
 						ClientBroadcastStatus statusBroadcastThread = new ClientBroadcastStatus(PropertiesOfPeer.ipAddrPortNumMappingAll);
-						statusBroadcastThread.start();						
+						statusBroadcastThread.start();	
+						
+						CheckForNewFileToGet checkForNewFileThread = new CheckForNewFileToGet();
+						checkForNewFileThread.start();
+						
 					} else {
 						System.out.println("System is already up");
 					}
@@ -51,12 +62,13 @@ public class UserInputThread extends Thread {
 					
 					if (fileName.equals("end")){
 						continue;
-					}					
+					}
 					PropertiesOfPeer.peerConcurrencyManager.insertFile(fileName);
 					PropertiesOfPeer.updateCurrentPeerStatus();
-					PropertiesOfPeer.broadcastStatus();
-					//Refresh and broadcast status
-					System.out.println("Inserted file and broadcasted new status");
+					if (PropertiesOfPeer.peerUp) {
+						PropertiesOfPeer.broadcastStatus();
+						// Refresh and broadcast status
+					}
 				}
 				
 			}

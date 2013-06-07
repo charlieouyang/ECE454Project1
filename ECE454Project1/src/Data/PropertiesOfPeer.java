@@ -19,7 +19,7 @@ public class PropertiesOfPeer {
 	public static String PeerName = ipAddress + "." + portNumber;
 	public static ArrayList<Entry> ipAddrPortNumMappingAll = new ArrayList<Entry>();
 	public static ArrayList<Entry> ipAddrPortNumMappingAlive = new ArrayList<Entry>();
-	public static boolean peerUp = true;
+	public static boolean peerUp = false;
 	
 	//File management and synchronization stuff
 	public static ConcurrencyManager peerConcurrencyManager;
