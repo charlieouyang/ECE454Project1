@@ -3,8 +3,10 @@ package justen;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -116,17 +118,13 @@ public class FileManager {
 		return fileList;
 	}
 
-	public TorrentFile copyFileFromRepo(String fileName) {
+	public TorrentFile copyFileFromRepo(String fileName) throws IOException {
 		File file = new File(fileName);
-		Path source = Paths.get(fileName);
-		Path target = Paths.get(completedPath + "\\" + file.getName());
-		try {
-			Files.copy(source, target, REPLACE_EXISTING);
-		} catch (IOException e) {
-			System.out.println("Error inserting: " + fileName);
-			return null;
-		}
-
+		FileChannel in = new FileInputStream(fileName).getChannel();
+		FileChannel out = new FileOutputStream(completedPath + "\\" + file.getName()).getChannel();
+		in.transferTo(0, in.size(), out);
+		out.close();
+		in.close();
 		return new TorrentFile(file);
 	}
 
