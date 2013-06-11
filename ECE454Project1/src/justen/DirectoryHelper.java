@@ -21,7 +21,7 @@ public class DirectoryHelper {
 	
 	public static boolean createCompletedDirectory(String name)
 	{
-		File dir = new File(name + "\\completed");
+		File dir = new File(name + "/completed");
 		if (dir.isDirectory())
 			deleteFolder(dir);
 		return dir.mkdir();
@@ -29,14 +29,14 @@ public class DirectoryHelper {
 	
 	public static boolean createChunkDirectory(String name)
 	{
-		File dir = new File(name + "\\chunks");
+		File dir = new File(name + "/chunks");
 		if (dir.isDirectory())
 			deleteFolder(dir);
 		return dir.mkdir();
 	}
 	
 	public static boolean createDirectory(String name, String fileName) {
-		File dir = new File(name + "\\chunks", fileName);
+		File dir = new File(name + "/chunks", fileName);
 		if (dir.isDirectory())
 			return true;
 		else 
