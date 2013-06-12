@@ -14,8 +14,8 @@ import justen.TorrentMetaData;
 
 public class PropertiesOfPeer {
 	//Global variables for the file server and client to access
-	public static String ipAddress = "ecelinux7.uwaterloo.ca";
-	public static int portNumber = 10075;			//Port number of this host
+	public static String ipAddress = "192.168.1.117";
+	public static int portNumber = 8000;			//Port number of this host
 	public static String PeerName = ipAddress + "." + portNumber;
 	public static ArrayList<Entry> ipAddrPortNumMappingAll = new ArrayList<Entry>();
 	public static ArrayList<Entry> ipAddrPortNumMappingAlive = new ArrayList<Entry>();
@@ -48,17 +48,15 @@ public class PropertiesOfPeer {
 		inProcessOfGettingChunks = new Hashtable<String, TorrentMetaData>();
 		
 		//List of ip address to port number mappings
-		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("ecelinux7.uwaterloo.ca", 10074);
+		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("192.168.1.117", 8001);
 		ipAddrPortNumMappingAll.add(entry1);
-		Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("ecelinux7.uwaterloo.ca", 10073);
+		Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("192.168.1.117", 8002);
 		ipAddrPortNumMappingAll.add(entry2);
-		Map.Entry<String, Integer> entry3 = new MyEntry<String, Integer>("ecelinux8.uwaterloo.ca", 10075);
+		Map.Entry<String, Integer> entry3 = new MyEntry<String, Integer>("192.168.1.118", 9000);
 		ipAddrPortNumMappingAll.add(entry3);
-
-		Map.Entry<String, Integer> entry4 = new MyEntry<String, Integer>("ecelinux8.uwaterloo.ca", 10074);
-		Map.Entry<String, Integer> entry5 = new MyEntry<String, Integer>("ecelinux8.uwaterloo.ca", 10073);
-
+		Map.Entry<String, Integer> entry4 = new MyEntry<String, Integer>("192.168.1.118", 9001);
 		ipAddrPortNumMappingAll.add(entry4);
+		Map.Entry<String, Integer> entry5 = new MyEntry<String, Integer>("192.168.1.118", 9002);
 		ipAddrPortNumMappingAll.add(entry5);
 	}
 	
