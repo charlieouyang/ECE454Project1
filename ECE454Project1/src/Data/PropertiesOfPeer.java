@@ -50,8 +50,8 @@ public class PropertiesOfPeer {
 		//List of ip address to port number mappings
 		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("localhost", 7000);
 		ipAddrPortNumMappingAll.add(entry1);
-		//Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("localhost", 8000);
-		//ipAddrPortNumMappingAll.add(entry2);
+		Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("localhost", 8000);
+		ipAddrPortNumMappingAll.add(entry2);
 		//Map.Entry<String, Integer> entry3 = new MyEntry<String, Integer>("localhost", 9000);
 		//ipAddrPortNumMappingAll.add(entry3);
 	}
