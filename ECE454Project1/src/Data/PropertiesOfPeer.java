@@ -47,13 +47,6 @@ public class PropertiesOfPeer {
 		fileListAlreadyGetting = new ArrayList<String>();
 		inProcessOfGettingChunks = new Hashtable<String, TorrentMetaData>();
 		
-		//List of ip address to port number mappings
-		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("localhost", 7000);
-		ipAddrPortNumMappingAll.add(entry1);
-		Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("localhost", 8000);
-		ipAddrPortNumMappingAll.add(entry2);
-		//Map.Entry<String, Integer> entry3 = new MyEntry<String, Integer>("localhost", 9000);
-		//ipAddrPortNumMappingAll.add(entry3);
 	}
 	
 	//This will be used to update the peer's status info
