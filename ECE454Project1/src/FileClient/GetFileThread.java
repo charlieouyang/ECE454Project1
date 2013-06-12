@@ -57,7 +57,7 @@ public class GetFileThread extends Thread {
 				if (icrm.isFileComplete()) {
 
 					// now that file is completely built, must delete the chunks\fileName directory
-					DirectoryHelper.deleteFolder(new File(concurManager.getChunkPath() + "\\" + fileName));
+					DirectoryHelper.deleteFolder(new File(concurManager.getChunkPath() + "/" + fileName));
 					break;
 				}
 				

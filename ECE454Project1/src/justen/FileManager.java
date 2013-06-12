@@ -1,13 +1,11 @@
 package justen;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.channels.FileChannel;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -19,8 +17,8 @@ public class FileManager {
 	public String completedPath;
 
 	public FileManager(String name) {
-		chunkPath = name + "\\chunks";
-		completedPath = name + "\\completed";
+		chunkPath = name + "/chunks";
+		completedPath = name + "/completed";
 		File dir = new File(chunkPath);
 		if (!dir.exists())
 			dir.mkdir();
@@ -116,17 +114,13 @@ public class FileManager {
 		return fileList;
 	}
 
-	public TorrentFile copyFileFromRepo(String fileName) {
+	public TorrentFile copyFileFromRepo(String fileName) throws IOException {
 		File file = new File(fileName);
-		Path source = Paths.get(fileName);
-		Path target = Paths.get(completedPath + "\\" + file.getName());
-		try {
-			Files.copy(source, target, REPLACE_EXISTING);
-		} catch (IOException e) {
-			System.out.println("Error inserting: " + fileName);
-			return null;
-		}
-
+		FileChannel in = new FileInputStream(fileName).getChannel();
+		FileChannel out = new FileOutputStream(completedPath + "/" + file.getName()).getChannel();
+		in.transferTo(0, in.size(), out);
+		out.close();
+		in.close();
 		return new TorrentFile(file);
 	}
 
@@ -145,7 +139,7 @@ public class FileManager {
 		if (chunkNum >= tFile.getNumberOfChunks())
 			return; // error
 
-		File file = new File(chunkPath + "\\" + tFile.getFileName(), tFile.getChunkName(chunkNum));
+		File file = new File(chunkPath + "/" + tFile.getFileName(), tFile.getChunkName(chunkNum));
 		FileOutputStream fos = null;
 
 		try {
@@ -204,12 +198,12 @@ public class FileManager {
 
 	// from completed directory
 	public byte[] getChunk(String fileName, int chunkNum) {
-		return ChunkManager.getChunkFromOffset(completedPath + "\\" + fileName, chunkNum
+		return ChunkManager.getChunkFromOffset(completedPath + "/" + fileName, chunkNum
 				* Constants.CHUNK_SIZE);
 	}
 
 	public byte[] getChunkFromIncompleteFile(String fileName, int chunkNum) {
-		return ChunkManager.getChunk(chunkPath + "\\" + fileName + "\\" + fileName + "_chunk_" + chunkNum);
+		return ChunkManager.getChunk(chunkPath + "/" + fileName + "/" + fileName + "_chunk_" + chunkNum);
 	}
 
 	/**
@@ -223,7 +217,7 @@ public class FileManager {
 		if (chunkNum >= tFile.getNumberOfChunks())
 			return null;
 
-		File chunkFile = new File(chunkPath + "\\" +tFile.getFileName(), tFile.getChunkName(chunkNum));
+		File chunkFile = new File(chunkPath + "/" +tFile.getFileName(), tFile.getChunkName(chunkNum));
 		FileInputStream fis = null;
 		byte[] chunkData;
 		int bytesRead;
@@ -251,6 +245,6 @@ public class FileManager {
 	}
 	
 	public String getAggregateChunks(String fileName) {
-		return DirectoryHelper.getAggregateChunkList(chunkPath + "\\" + fileName);
+		return DirectoryHelper.getAggregateChunkList(chunkPath + "/" + fileName);
 	}
 }

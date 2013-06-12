@@ -1,6 +1,7 @@
 package justen;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -69,9 +70,17 @@ public class ConcurrencyManager {
 			}
 		}
 		
-		TorrentFile tFile = fileManager.copyFileFromRepo(fileName);
-		allFiles.add(tFile);
-		allMetaData.put(tFile.getFileName(), new TorrentMetaData(tFile.getFileName(), (int)tFile.getNumberOfChunks()));
+		TorrentFile tFile = null;
+		try {
+			tFile = fileManager.copyFileFromRepo(fileName);
+		} catch (IOException e) {
+			// fuck it
+			e.printStackTrace();
+		}
+		if (tFile != null) {
+			allFiles.add(tFile);
+			allMetaData.put(tFile.getFileName(), new TorrentMetaData(tFile.getFileName(), (int)tFile.getNumberOfChunks()));
+		}
 		
 		return 0;
 	}
