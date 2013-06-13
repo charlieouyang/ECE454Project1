@@ -12,6 +12,8 @@ import FileClient.CloseThisConnectionThread;
 import FileServer.FileServer;
 
 public class UserInputThread extends Thread {
+	FileServer fileServerThread;
+	
 	public UserInputThread() {
 	}
 
@@ -20,7 +22,7 @@ public class UserInputThread extends Thread {
 		try {
 			while (true){
 				Scanner scanner = new Scanner (System.in);
-				System.out.println("Please enter operation");  
+				System.out.println("[** KEYBOARD INPUT **]	Please enter operation");  
 				String input = scanner.next(); 
 				
 				if (input.equals("leave")) {
@@ -28,8 +30,10 @@ public class UserInputThread extends Thread {
 						// Shutdown the server!
 						CloseThisConnectionThread closePeerThread = new CloseThisConnectionThread();
 						closePeerThread.start();
+						
+						fileServerThread.stopTheThread();
 					} else {
-						System.out.println("System is already shutdown");
+						System.out.println("[** SYSTEM NOTIFICATION **]	System is already shutdown");
 					}
 				}
 				else if (input.equals("join")){
@@ -37,9 +41,9 @@ public class UserInputThread extends Thread {
 						// Turn the server on
 						PropertiesOfPeer.peerUp = true;
 						
-						FileServer fileServerThread = new FileServer(PropertiesOfPeer.portNumber);
+						fileServerThread = new FileServer(PropertiesOfPeer.portNumber);
 						fileServerThread.start();
-						System.out.println("Running file server thread");
+						System.out.println("[** SYSTEM NOTIFICATION **]	Running file server thread");
 						
 						// 2) Invoke the File Client Thread		
 						ClientBroadcastUp fileClientThread = new ClientBroadcastUp(PropertiesOfPeer.ipAddrPortNumMappingAll);
@@ -53,11 +57,11 @@ public class UserInputThread extends Thread {
 						checkForNewFileThread.start();
 						
 					} else {
-						System.out.println("System is already up");
+						System.out.println("[** SYSTEM NOTIFICATION **]	System is already up");
 					}
 				}
 				else if (input.equals("insert")){
-					System.out.println("Please enter full file name");
+					System.out.println("[** KEYBOARD INPUT **]	Please enter full file name");
 					String fileName = scanner.next(); 
 					
 					if (fileName.equals("end")){

@@ -104,7 +104,7 @@ public class GetFileThread extends Thread {
 					
 				}
 			}
-			System.out.println("Finished getting file.");
+			System.out.println("[** SYSTEM NOTIFICATION **]	Finished getting file.");
 			PropertiesOfPeer.listOfFilesToGet.remove(fileName);
 		} catch (Exception e) {
 			System.err.println("Screwed up on check for new files to get");

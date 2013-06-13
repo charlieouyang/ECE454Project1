@@ -4,6 +4,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import Data.Message;
+import Data.PropertiesOfPeer;
 
 public class FileServerThreadSendMessage extends Thread {
 	private Socket socket = null;
@@ -25,20 +26,40 @@ public class FileServerThreadSendMessage extends Thread {
 
 		try {
 		    
-			Socket socket = new Socket(destIpAddress, destPortNumber);
-			//Send to other peer response
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());			
+			boolean stillTryingToConnect = true;
 
-			objectOutputStream.writeObject(returnMessage);
+			while (stillTryingToConnect) {
+				try {
+					stillTryingToConnect = PropertiesOfPeer.peerUp;
+					socket = new Socket(destIpAddress, destPortNumber);
+					if (socket != null) {
+						break;
+					}
+				} catch (Exception e) {
+					// handle exceptions
+					// possibly add a sleep period
+					// System.err.println("Can't connect to " + ipAddress + " "
+					// + portNumber +
+					// "... waiting for 5 sec");
+					Thread.sleep(5000);
+				}
+			}
 
-			//System.out.println("Closing the connection for sending gracefully");
-			
-			//objectOutputStream.close();
-			objectOutputStream.close();
-			
-		    socket.close();
+			if (stillTryingToConnect == true) {
+				//Send to other peer response
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());			
+
+				objectOutputStream.writeObject(returnMessage);
+
+				//System.out.println("Closing the connection for sending gracefully");
+				
+				//objectOutputStream.close();
+				objectOutputStream.close();
+				
+			    socket.close();
+			}
 	
-		} catch (IOException e) {
+		} catch (Exception e) {
 		    e.printStackTrace();
 		} 
     }

@@ -12,6 +12,13 @@ public class FileServer extends Thread {
 	public FileServer(int portNumber) {
 		this.portNumber = portNumber;
 	}
+	
+	public void stopTheThread() throws IOException{
+		if (serverSocket != null){
+			serverSocket.close();
+		}
+		//Thread.currentThread().interrupt();
+	}
 
 	@Override
 	public void run() {
@@ -25,11 +32,11 @@ public class FileServer extends Thread {
 
 			// Is this still neccessary since we're closing the socket
 			// from the thread???
-			serverSocket.close();
+			if (serverSocket != null){
+				serverSocket.close();
+			}
 		} catch (IOException e) {
-			System.err.println("Could not listen on port: "
-					+ Integer.toString(portNumber));
-			System.exit(-1);
+			
 		}
 	}
 }

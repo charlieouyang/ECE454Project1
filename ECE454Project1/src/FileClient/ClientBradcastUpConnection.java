@@ -36,8 +36,8 @@ public class ClientBradcastUpConnection extends Thread {
 				} catch (Exception e) {
 					// handle exceptions
 					// possibly add a sleep period
-					System.err.println("Can't connect to " + ipAddress + " " + portNumber +
-							"... waiting for 5 sec");
+					//System.err.println("Can't connect to " + ipAddress + " " + portNumber +
+					//		"... waiting for 5 sec");
 					Thread.sleep(5000);
 				}
 			}

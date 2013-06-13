@@ -70,7 +70,7 @@ public class DirectoryHelper {
 		for (int i = 0; i < listOfFiles.length; i++) {
 			//It's a file
 			if (listOfFiles[i].isFile()) {
-				System.out.println("File " + listOfFiles[i].getName());
+				//System.out.println("File " + listOfFiles[i].getName());
 				
 				String fileName = listOfFiles[i].getName();
 				int lastUnderScore = fileName.lastIndexOf("_");

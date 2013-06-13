@@ -50,6 +50,7 @@ public class PropertiesOfPeer {
 		//List of ip address to port number mappings
 		Map.Entry<String, Integer> entry1 = new MyEntry<String, Integer>("192.168.1.117", 8001);
 		ipAddrPortNumMappingAll.add(entry1);
+		/*
 		Map.Entry<String, Integer> entry2 = new MyEntry<String, Integer>("192.168.1.117", 8002);
 		ipAddrPortNumMappingAll.add(entry2);
 		Map.Entry<String, Integer> entry3 = new MyEntry<String, Integer>("192.168.1.118", 9000);
@@ -58,6 +59,7 @@ public class PropertiesOfPeer {
 		ipAddrPortNumMappingAll.add(entry4);
 		Map.Entry<String, Integer> entry5 = new MyEntry<String, Integer>("192.168.1.118", 9002);
 		ipAddrPortNumMappingAll.add(entry5);
+		*/
 	}
 	
 	//This will be used to update the peer's status info
@@ -130,10 +132,10 @@ public class PropertiesOfPeer {
 		//This is replacing all existing entries and adding new ones
 		
 		if(currentPeerStatus.allMetaData == null){
-			System.out.println("Current size of allMetaDataForThisPeer : " + currentPeerStatus.allMetaData.size());
+			//System.out.println("Current size of allMetaDataForThisPeer : " + currentPeerStatus.allMetaData.size());
 		}
 		else{
-			System.out.println("It's not null");
+			//System.out.println("It's not null");
 		}
 
 		Iterator<Map.Entry<String, TorrentMetaData>> otherPeersMetaData = listOfFilesAndMetaData.entrySet().iterator();
